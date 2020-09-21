@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 import sys
 
-# YOUR CODE GOES HERE
+street_dict = {}
 
+
+# YOUR CODE GOES HERE
 
 def main():
     # YOUR MAIN CODE GOES HERE
@@ -14,9 +16,9 @@ def main():
         line = sys.stdin.readline()
         if line == "":
             break
-        print("read a line:", line)
+        # print("read a line:", line)
 
-    print("Finished reading input")
+    # print("Finished reading input")
     # return exit code 0 on successful termination
     sys.exit(0)
 
