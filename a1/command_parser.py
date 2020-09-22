@@ -2,7 +2,9 @@ import re
 # from a1ece650 import street_dict
 
 command_list = ['add', 'mod', 'rm', 'gg']
-street_dict = {"a", "b", "c"}
+
+# # for test only
+# street_dict = {"a", "b", "c"}
 
 
 def parse_line(line):
@@ -83,7 +85,7 @@ def parse_line(line):
                         return None, None
                     else:
                         point_str = valid.group()
-                        # point_str = point_str.replace(' ', '')    # int() could hand whitespaces
+                        # point_str = point_str.replace(' ', '')    # int() could handle whitespaces
                         # point_str = point_str.replace('\t', '')
                         result = get_coordinates(point_str + ')')
                         if len(args[1]) > 0 and result == args[1][-1]:  # two consecutive points are the same, skip it
@@ -104,15 +106,15 @@ def get_coordinates(point_str):
     return point
 
 
-# for test_only
-while True:
-    my_line = input("input a command:\n")
-    my_cmd, my_val = parse_line(my_line)
-    if my_cmd:
-        print("cmd: " + my_cmd)
-    if my_val:
-        print("street name: " + my_val[0])
-        if len(my_val) > 1:
-            print("line segments:")
-            for lst in my_val[1]:
-                print(' (' + str(lst[0]) + ',' + str(lst[1]) + ') ')
+# # for test_only
+# while True:
+#     my_line = input("input a command:\n")
+#     my_cmd, my_val = parse_line(my_line)
+#     if my_cmd:
+#         print("cmd: " + my_cmd)
+#     if my_val:
+#         print("street name: " + my_val[0])
+#         if len(my_val) > 1:
+#             print("line segments:")
+#             for lst in my_val[1]:
+#                 print(' (' + str(lst[0]) + ',' + str(lst[1]) + ') ')
