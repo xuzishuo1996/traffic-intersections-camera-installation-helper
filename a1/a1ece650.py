@@ -2,6 +2,7 @@
 import sys
 from command_parser import parse_line
 from street_db import StreetDB
+from graph_generator import gen_graph
 
 # street_dict = {}
 
@@ -31,7 +32,9 @@ def main():
         elif cmd == 'rm':
             street_db.remove(val)
         else:   # gg
-            print("gg to be completed!")
+            graph = gen_graph()
+            graph.output()
+            # print("gg to be completed!")
 
         print(street_db.streets)
 

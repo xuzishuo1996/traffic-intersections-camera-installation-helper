@@ -1,3 +1,6 @@
+from graph import Graph
+
+
 class StreetDB:
     def __init__(self):
         self.streets = {}
@@ -16,3 +19,4 @@ class StreetDB:
 
     def contains(self, street) -> bool:
         return street[0] in self.streets.keys()
+

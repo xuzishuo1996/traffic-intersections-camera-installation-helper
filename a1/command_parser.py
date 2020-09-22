@@ -13,9 +13,9 @@ def parse_line(line, street_db):
     Parse an input line and return command and arguments.
     Print a message on error.
 
-    :returns cmd, args. return None, None when input line is invalid.
-             args type: [str, [(), (), ...]]. a list containing street name(str)
-                        and  a list of point tuples
+    :returns cmd: str
+             args: list. [str, [(), (), ...]]. a list containing street name(str) and a list of point tuples
+             returns None, None when input line is invalid.
     """
     cmd = None
     args = None
