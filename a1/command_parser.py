@@ -10,7 +10,9 @@ def parse_line(line):
     Parse an input line and return command and arguments.
     Print a message on error.
 
-    :returns cmd, val. return None, None when input line is invalid.
+    :returns cmd, args. return None, None when input line is invalid.
+             args type: [str, [(), (), ...]]. a list containing street name(str)
+                        and  a list of point tuples
     """
     cmd = None
     args = None
@@ -68,17 +70,22 @@ def parse_line(line):
 
                 args = [street_name, []]
                 # parse line segments
-                points = line_segments.split()
+                points = line_segments.split(')')
+                points.pop()    # the last one is ''
                 # construct a pattern for (x,y) coordinates
-                pattern = r"(\(\s?-?\d+\s?,\s?-?\d+\s?\))"
+                # pattern = r"(\(\s*-?\d+\s*,\s*-?\d+\s*\))"
+                pattern = r"(\(\s*-?\d+\s*,\s*-?\d+\s*)"
                 for point in points:
-                    valid = re.match(pattern, point)
+                    point_striped = point.strip()
+                    valid = re.match(pattern, point_striped)
                     if not valid:
                         print("Error: 'add' or 'mod' specified an invalid line segment.")
                         return None, None
                     else:
-                        point_str = valid.group().replace(" ", "")
-                        result = get_coordinates(point_str)
+                        point_str = valid.group()
+                        # point_str = point_str.replace(' ', '')    # int() could hand whitespaces
+                        # point_str = point_str.replace('\t', '')
+                        result = get_coordinates(point_str + ')')
                         if len(args[1]) > 0 and result == args[1][-1]:  # two consecutive points are the same, skip it
                             continue
                         else:
@@ -106,74 +113,6 @@ while True:
     if my_val:
         print("street name: " + my_val[0])
         if len(my_val) > 1:
-            print("line segments:\n")
+            print("line segments:")
             for lst in my_val[1]:
                 print(' (' + str(lst[0]) + ',' + str(lst[1]) + ') ')
-
-
-# deprecated
-# def parse_line_old(line):
-#     """
-#     Parse an input line and return command and arguments.
-#     Print a message on error.
-#
-#     :returns cmd, val. set cmd = None when input line is invalid.
-#     """
-#     sp = line.strip().split()
-#     arg_len = len(sp)
-#     val = None
-#     if arg_len == 0:
-#         print("Error: no input command. Please provide one.")
-#         cmd = None
-#         return cmd, val
-#     if sp[0] not in command_list:
-#         print("Error: Your input command is invalid. Valid commands include: 'add', 'mod', 'rm', 'gg'.")
-#         cmd = None
-#         return cmd, val
-#     # valid command name
-#     cmd = sp[0]
-#     if cmd == 'gg':
-#         if arg_len > 1:
-#             print("Error: 'gg' should not be invoked with any arg.")
-#             cmd = None
-#     elif cmd == 'rm':
-#         if arg_len != 1:    # invalid arg num
-#             print("Error: invalid arg number for 'rm'. should be 1: street name.")
-#             cmd = None
-#         else:   # valid arg num
-#             if sp[1] not in street_dict:
-#                 print("Error: 'rm' specified a street name that does not exist.")
-#                 cmd = None
-#             else:
-#                 val = sp[1]
-#     else:   # 'add' and 'mod'
-#         if arg_len < 3:
-#             print("Error: invalid arg num for 'add' or 'mod'. should be 2: street name and line segments.")
-#             cmd = None
-#         else:
-#             if cmd == 'add' and sp[1] in street_dict:
-#                 print("Error: 'add' specified a street name that already exists.")
-#                 cmd = None
-#             elif cmd == 'mod' and sp[1] not in street_dict:
-#                 print("Error: 'mod' specified a street name that does not exist.")
-#                 cmd = None
-#             else:
-#                 val = []
-#                 val[0] = sp[1]
-#                 val[1] = []
-#                 # deal with street line segments
-#                 # construct a pattern for (x,y) coordinates
-#                 pattern = r"(\(\s?-?\d+\s?,\s?-?\d+\s?\))"
-#                 for point in sp[2:]:
-#                     valid = re.match(pattern, point)
-#                     if not valid:
-#                         print("Error: 'add' or 'mod' specified an invalid line segment.")
-#                         cmd = None
-#                         return cmd, val
-#                     else:
-#                         point_str = valid.group().replace(" ", "")
-#                         point = get_coordinates(point_str)
-#                         val[1].append(point)
-#
-#     return cmd, val
-
