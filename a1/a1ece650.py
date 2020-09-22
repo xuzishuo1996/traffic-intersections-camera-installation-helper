@@ -16,11 +16,12 @@ def main():
     # make sure to remove all spurious print statements as required
     # by the assignment
     while True:
-        line = sys.stdin.readline()
+        # line = sys.stdin.readline()
+        line = input("input a command:")
         # print("read a line:", line)
         if line == "":
             break
-        cmd, val = parse_line(line)
+        cmd, val = parse_line(line, street_db)
         if cmd is None:
             continue
         if cmd == 'add':
@@ -31,6 +32,8 @@ def main():
             street_db.remove(val)
         else:   # gg
             print("gg to be completed!")
+
+        print(street_db.streets)
 
     # print("Finished reading input")
     # return exit code 0 on successful termination

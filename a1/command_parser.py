@@ -1,4 +1,5 @@
 import re
+from street_db import StreetDB
 # from a1ece650 import street_dict
 
 command_list = ['add', 'mod', 'rm', 'gg']
@@ -7,7 +8,7 @@ command_list = ['add', 'mod', 'rm', 'gg']
 # street_dict = {"a", "b", "c"}
 
 
-def parse_line(line):
+def parse_line(line, street_db):
     """
     Parse an input line and return command and arguments.
     Print a message on error.
@@ -46,7 +47,8 @@ def parse_line(line):
             street_name = arg_str[1:quote_pos].strip()
             line_segments = arg_str[quote_pos + 1:].strip()
             if cmd == 'rm':
-                if street_name not in street_dict:
+                # if street_name not in street_dict:
+                if not street_db.contains(street_name):
                     print("Error: 'rm' specified a street that does not exist.")
                     return None, None
                 if len(line_segments) != 0:
@@ -55,14 +57,16 @@ def parse_line(line):
                 return cmd, [street_name]
             else:
                 if cmd == 'add':
-                    if street_name in street_dict:
+                    # if street_name in street_dict:
+                    if street_db.contains(street_name):
                         print("Error: 'add' specified a street that already existed.")
                         return None, None
                     if street_name == "":
                         print("Error: 'add' specified an empty street name.")
                         return None, None
                 else:   # 'mod'
-                    if street_name not in street_dict:
+                    # if street_name not in street_dict:
+                    if not street_db.contains(street_name):
                         print("Error: 'mod' specified a street that does not exist.")
                         return None, None
 
