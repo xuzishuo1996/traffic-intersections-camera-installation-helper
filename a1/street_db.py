@@ -1,5 +1,5 @@
 from graph import Graph
-from intersect import Segment
+from intersect import Segment, Point
 
 
 class StreetDB:
@@ -14,12 +14,12 @@ class StreetDB:
         if street[0] in self.streets.keys():
             self.streets[street[0]] = street[1]
 
-    def remove(self, street):
-        if street[0] in self.streets.keys():
-            del self.streets[street[0]]
+    def remove(self, street_name):
+        if street_name in self.streets.keys():
+            del self.streets[street_name]
 
-    def contains(self, street) -> bool:
-        return street[0] in self.streets.keys()
+    def contains(self, street_name) -> bool:
+        return street_name in self.streets.keys()
 
     def convert_to_segs(self) -> dict:
         """
@@ -32,3 +32,10 @@ class StreetDB:
                 segs.append(Segment(point, item[1][idx + 1]))
             street_segs[item[0]] = segs
         return street_segs
+
+
+if __name__ == '__main__':
+    street_db = StreetDB()
+    street_db.streets["King Street S"] = [Point(1, 2), Point(3, 4)]
+    print(street_db.streets["King Street S"])
+    street_db.remove("King Street S")

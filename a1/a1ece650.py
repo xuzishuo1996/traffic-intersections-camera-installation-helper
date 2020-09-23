@@ -30,7 +30,7 @@ def main():
         elif cmd == 'mod':
             street_db.modify(val)
         elif cmd == 'rm':
-            street_db.remove(val)
+            street_db.remove(val[0])    # val is [] containing a single element
         else:   # gg
             graph = gen_graph(street_db)
             graph.output()
