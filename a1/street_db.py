@@ -23,12 +23,12 @@ class StreetDB:
 
     def convert_to_segs(self) -> dict:
         """
-        :return: dict. (key: [] - segments, val: str - street name)
+        :return: dict. (key: str - street name, val: [] - segments)
         """
         street_segs = {}
         for item in self.streets.items():
             segs = []
             for idx, point in enumerate(item[1][:-1]):
                 segs.append(Segment(point, item[1][idx + 1]))
-            street_segs[segs] = item[0]
+            street_segs[item[0]] = segs
         return street_segs

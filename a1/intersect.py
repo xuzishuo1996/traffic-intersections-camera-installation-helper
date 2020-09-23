@@ -1,3 +1,6 @@
+from itertools import combinations
+import sys
+
 def pp(x):
     """Returns a pretty-print string representation of a number.
        A float number is represented by an integer, if it is whole,
@@ -14,6 +17,8 @@ def pp(x):
 def cross_product(v1, v2):
     """
     calculate the cross product of 2 vectors
+    :param v1: vector (represented by Point)
+    :param v2: vector (represented by Point)
     """
     return v1.x * v2.y - v2.x * v1.y
 
@@ -42,12 +47,30 @@ class Point(object):
     def __hash__(self):
         return self.x.__hash__() + self.y.__hash__()
 
+    def dist(self, other):
+        """
+        calculate the square of distance between 2 Points
+        :param other: the other
+        :return:
+        """
+        return (self.x - other.x) ** 2 + (self.y - other.y) ** 2
+
+
+def three_points_on_same_line(p1, p2, p3):
+    """
+    :param p1: Point
+    :param p2: Point
+    :param p3: Point
+    :return: bool
+    """
+    return cross_product(p2 - p1, p3 - p1) == 0
+
 
 class Segment(object):
     """
     A line segment between two points
-    Reference: https://zhuanlan.zhihu.com/p/37360022
-    is_intersected algorithm: judge if both segment cross the other line using cross product
+    is_intersected algorithm reference: https://zhuanlan.zhihu.com/p/37360022
+                                        judge if both segment cross the other line using cross product
     """
     def __init__(self, point1, point2):
         self.point1 = point1
@@ -58,27 +81,66 @@ class Segment(object):
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
-            return self.point1 == other.point1 and self.point2 == other.point2
+            return (self.point1 == other.point1 and self.point2 == other.point2) or \
+                   (self.point1 == other.point2 and self.point2 == other.point1)
         return False
 
     def __hash__(self):
         return self.point1.__hash__() + self.point2.__hash__()
 
-    def straddle(self, another_segment):
+    def segs_on_same_line(self, seg):
         """
-        :return: if the other segment cross the corresponding line of self, return true.
+        :param seg: another segment
+        :return: bool
+        """
+        return three_points_on_same_line(self.point1, self.point2, seg.point1) and \
+            three_points_on_same_line(self.point1, self.point2, seg.point2)
+
+    def overlaps(self, seg):
+        """
+        use it only when segments are on the same line
+        :param seg: another segment
+        :return: set(): intersection points.
+                 empty when not overlap
+                 len = 1 when overlaps at the end
+                 len = 2 when overlaps a range
+        """
+        if self == seg:
+            return {self.point1, self.point2}
+        point_list = [self.point1, self.point2, seg.point1, seg.point2]
+        point_set = set(point_list)     # set literal
+        far_ends = set()
+        max_dist = 0
+        for pair in combinations(point_set, 2):
+            dist = pair[0].dist(pair[1])
+            if dist >= max_dist:
+                max_dist = dist
+                far_ends = {pair[0], pair[1]}
+
+        for point in far_ends:
+            point_list.remove(point)
+        return set(point_list)
+
+    def straddle(self, seg):
+        """
+        :param seg: another segment
+        :return if the other segment cross the corresponding line of self, return true.
         """
         v = self.point2 - self.point1
-        v1 = another_segment.point1 - self.point1
-        v2 = another_segment.point2 - self.point1
+        v1 = seg.point1 - self.point1
+        v2 = seg.point2 - self.point1
         # == 0: when one end of a segment is on the other segment
         return cross_product(v1, v) * cross_product(v2, v) <= 0
         #     return True
         # else:
         #     return False
 
-    def is_intersected(self, another_segment):
-        if self.straddle(another_segment) and another_segment.straddle(self):
+    def is_intersected(self, seg):
+        """
+        use it only when segments are not on the same line
+        :param seg: another segment
+        """
+        if self.straddle(seg) and seg.straddle(self):
             return True
         else:
             return False
@@ -153,6 +215,37 @@ if __name__ == '__main__':
     # print(Point(1, 2) == Point(1, 2))
     # print((1, 2) == Point(1, 2))
 
-    points = {Point(1, 2): 1, Point(3, 4): 2, Point(5, 6): 3}
-    print(Point(3, 4) in points)
-    print(Point(7, 8) in points)
+    # points = {Point(1, 2): 1, Point(3, 4): 2, Point(5, 6): 3}
+    # print(Point(3, 4) in points)
+    # print(Point(7, 8) in points)
+
+    # segments are on the same line and overlap
+    l10 = Segment(Point(0, 0), Point(1, 1))
+    # l11 = Segment(Point(0, 0), Point(2, 2))
+    # print(l10.is_intersected(l11)) # correct result: true
+    # print(intersect(l10, l11))    # ZeroDivisionError
+
+    # segments are on the same line and not overlap
+    # l12 = Segment(Point(5, 5), Point(6, 6))
+    # print(l10.is_intersected(l12))  # should not invoke this
+    # print(intersect(l10, l12))    # ZeroDivisionError
+
+    # parallel segments
+    # l13 = Segment(Point(1, 0), Point(2, 1))
+    # print(l10.is_intersected(l13))  # correct result: false
+    # print(intersect(l10, l13))  # ZeroDivisionError, but does not matter. not invoke it after is_intersected returns False
+
+    # l16 = Segment(Point(0, 0), Point(5, 5))
+    # l17 = Segment(Point(5, 5), Point(0, 0))
+    # print(l16 == l17)     # True
+
+    # test overlaps: passed
+    # l14 = Segment(Point(0, 0), Point(5, 5))
+    # l15 = Segment(Point(1, 1), Point(6, 6))
+    # l16 = Segment(Point(1, 1), Point(6, 6))
+    # l17 = Segment(Point(0, 0), Point(8, 8))
+    # l18 = Segment(Point(0, 0), Point(-1, -1))
+    # print(l14.overlaps(l15))    # [(1,1), (5,5)]
+    # print(l15.overlaps(l16))    # [(1,1), (6,6)]
+    # print(l14.overlaps(l17))    # [(0,0), (5,5)]
+    # print(l14.overlaps(l18))    # [(0,0)]

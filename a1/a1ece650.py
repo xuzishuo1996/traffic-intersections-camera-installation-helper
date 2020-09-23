@@ -18,7 +18,7 @@ def main():
     # by the assignment
     while True:
         # line = sys.stdin.readline()
-        line = input("input a command:")
+        line = input("input a command:\n")
         # print("read a line:", line)
         if line == "":
             break
@@ -32,11 +32,11 @@ def main():
         elif cmd == 'rm':
             street_db.remove(val)
         else:   # gg
-            graph = gen_graph()
+            graph = gen_graph(street_db)
             graph.output()
             # print("gg to be completed!")
 
-        print(street_db.streets)
+        # print(street_db.streets)
 
     # print("Finished reading input")
     # return exit code 0 on successful termination
