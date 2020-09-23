@@ -1,4 +1,5 @@
 from graph import Graph
+from intersect import Segment
 
 
 class StreetDB:
@@ -20,3 +21,14 @@ class StreetDB:
     def contains(self, street) -> bool:
         return street[0] in self.streets.keys()
 
+    def convert_to_segs(self) -> dict:
+        """
+        :return: dict. (key: [] - segments, val: str - street name)
+        """
+        street_segs = {}
+        for item in self.streets.items():
+            segs = []
+            for idx, point in enumerate(item[1][:-1]):
+                segs.append(Segment(point, item[1][idx + 1]))
+            street_segs[segs] = item[0]
+        return street_segs

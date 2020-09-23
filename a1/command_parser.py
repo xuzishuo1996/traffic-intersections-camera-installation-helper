@@ -1,4 +1,5 @@
 import re
+from intersect import Point
 from street_db import StreetDB
 # from a1ece650 import street_dict
 
@@ -103,10 +104,10 @@ def parse_line(line, street_db):
     return cmd, args
 
 
-def get_coordinates(point_str):
+def get_coordinates(point_str) -> Point:
     point_str = point_str[1:-1]     # remove '(' and ')'
     coordinates = point_str.split(',')
-    point = (int(coordinates[0]), int(coordinates[1]))
+    point = Point(int(coordinates[0]), int(coordinates[1]))
     return point
 
 
