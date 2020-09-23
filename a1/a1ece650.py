@@ -36,7 +36,7 @@ def main():
             graph.output()
             # print("gg to be completed!")
 
-        # print(street_db.streets)
+        print(street_db.streets)
 
     # print("Finished reading input")
     # return exit code 0 on successful termination

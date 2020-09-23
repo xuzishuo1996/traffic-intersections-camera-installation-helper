@@ -4,7 +4,7 @@ from intersect import Segment
 
 class StreetDB:
     def __init__(self):
-        self.streets = {}
+        self.streets = {}   # dict. (key: str - street name, val: [] - Points)
 
     def add(self, street):
         if street[0] not in self.streets.keys():
@@ -23,7 +23,7 @@ class StreetDB:
 
     def convert_to_segs(self) -> dict:
         """
-        :return: dict. (key: str - street name, val: [] - segments)
+        :return: dict. (key: str - street name, val: [] - Segments)
         """
         street_segs = {}
         for item in self.streets.items():

@@ -249,3 +249,16 @@ if __name__ == '__main__':
     # print(l15.overlaps(l16))    # [(1,1), (6,6)]
     # print(l14.overlaps(l17))    # [(0,0), (5,5)]
     # print(l14.overlaps(l18))    # [(0,0)]
+
+    # s = {Point(1, 2), Point(3, 4), Point(5, 6)}
+    # p1 = Point(3, 4)
+    # print(p1 in s)
+    # lst = list(s)
+    # print(lst)
+    # print(p1 in lst)
+
+    s = {Point(1.37, 2.35), Point(3.33, 4.45), Point(5.51, 6.26)}
+    p1 = Point(5.51, 6.26)
+    p2 = Point(5.52, 6.26)
+    print(p1 in s)
+    print(p2 in s)
