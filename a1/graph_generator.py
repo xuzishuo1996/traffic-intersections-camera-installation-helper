@@ -42,7 +42,29 @@ def gen_graph(street_db):
                                     # edges.add(seg)  # edges: set
                                     # edges: dict
                                     if seg not in edges:  # do not repeat when 3 lines cross at a single point
-                                        edges.append(seg)
+                                        split = False   # bool flag
+                                        for edge in edges:
+                                            if edge.contains_point(intersection):
+                                                if point == edge.point1:
+                                                    # if seg not in edges:
+                                                    edges.append(seg)  # Segment(point, intersection)
+                                                    another_seg = Segment(intersection, edge.point2)
+                                                    # if another_seg not in edges:
+                                                    edges.append(another_seg)
+                                                    edges.remove(edge)
+                                                    split = True
+                                                    break
+                                                else:   # point == edge.point2:
+                                                    # if seg not in edges:
+                                                    edges.append(seg)  # Segment(point, intersection)
+                                                    another_seg = Segment(intersection, edge.point1)
+                                                    # if another_seg not in edges:
+                                                    edges.append(another_seg)
+                                                    edges.remove(edge)
+                                                    split = True
+                                                    break
+                                        if not split:
+                                            edges.append(seg)
 
                 elif seg1.is_intersected(seg2):
                     intersection = intersect(seg1, seg2)
@@ -59,7 +81,30 @@ def gen_graph(street_db):
                             # edges.add(seg)  # edges: set
                             # edges: dict
                             if seg not in edges:    # do not repeat when 3 lines cross at a single point
-                                edges.append(seg)
+                                split = False  # bool flag
+                                for edge in edges:
+                                    # if egde contains seg
+                                    if edge.contains_point(intersection):
+                                        if point == edge.point1:
+                                            # if seg not in edges:
+                                            edges.append(seg)  # Segment(point, intersection)
+                                            another_seg = Segment(intersection, edge.point2)
+                                            # if another_seg not in edges:
+                                            edges.append(another_seg)
+                                            edges.remove(edge)
+                                            split = True
+                                            break
+                                        else:   # point == edge.point2:
+                                            # if seg not in edges:
+                                            edges.append(seg)  # Segment(point, intersection)
+                                            another_seg = Segment(intersection, edge.point1)
+                                            # if another_seg not in edges:
+                                            edges.append(another_seg)
+                                            edges.remove(edge)
+                                            split = True
+                                            break
+                                if not split:
+                                    edges.append(seg)
 
     # remove redundant edges
 

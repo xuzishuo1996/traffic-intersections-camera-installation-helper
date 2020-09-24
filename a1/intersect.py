@@ -166,6 +166,9 @@ class Segment(object):
             return False
         return True
 
+    # def contains_line(self, seg):
+    #     if self.segs_on_same_line(self, seg):
+
 
 def intersect(l1, l2):
     """Returns a point at which two lines intersect"""
@@ -257,8 +260,13 @@ if __name__ == '__main__':
     # print(lst)
     # print(p1 in lst)
 
-    s = {Point(1.37, 2.35), Point(3.33, 4.45), Point(5.51, 6.26)}
-    p1 = Point(5.51, 6.26)
-    p2 = Point(5.52, 6.26)
-    print(p1 in s)
-    print(p2 in s)
+    # s = {Point(1.37, 2.35), Point(3.33, 4.45), Point(5.51, 6.26)}
+    # p1 = Point(5.51, 6.26)
+    # p2 = Point(5.52, 6.26)
+    # print(p1 in s)
+    # print(p2 in s)
+
+    l19 = Segment(Point(0, 0), Point(5, 5))
+    print(l19.contains_point(Point(5, 5)))
+    print(l19.contains_point(Point(6, 6)))
+    print(l19.contains_point(Point(5, 6)))
