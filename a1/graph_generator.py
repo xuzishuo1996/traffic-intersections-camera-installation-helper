@@ -58,7 +58,7 @@ def gen_graph(street_db):
                                             edges.remove(edge)
                                             need_adding = False
                                             break
-                                        else:   # point == edge.point2:
+                                        elif point == edge.point2:
                                             edges.add(seg)  # seg: Segment(point, intersection)
                                             if edge.point1 != intersection:
                                                 edges.add(Segment(intersection, edge.point1))
