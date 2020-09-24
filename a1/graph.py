@@ -4,8 +4,8 @@ from intersect import pp
 class Graph:
     def __init__(self):
         self.vertices = {}  # dict (key: Point, value: int - sequence number)
-        # self.edges = set()     # set of Segments
-        self.edges = []     # list of Segments
+        self.edges = set()     # set of Segments
+        # self.edges = []     # list of Segments
 
     def output(self):   # or __str__, __repr__ ?
         print("V = {")
