@@ -24,18 +24,21 @@ def gen_graph(street_db):
         #                  )
         for seg1 in pair[0][1]:
             for seg2 in pair[1][1]:
+                street1 = pair[0][0]
+                street2 = pair[1][0]
                 if seg1.is_intersected(seg2):
                     intersection = intersect(seg1, seg2)
                     # deal with V
-                    points1 = {intersection, seg1.point1, seg1.point2, seg2.point1, seg2.point2}
-                    points2 = {seg1.point1, seg1.point2, seg2.point1, seg2.point2}
+                    points1 = {intersection: "dumb", seg1.point1: street1, seg1.point2: street1, seg2.point1: street2, seg2.point2: street2}
+                    points2 = {seg1.point1: street1, seg1.point2: street1, seg2.point1: street2, seg2.point2: street2}
                     for point in points1:
                         if point not in vertices:
                             vertices[point] = count
                             count += 1
                             if point != intersection:
-                                edges.add(Segment(point, intersection))
-                                points2.remove(point)
+                                seg = Segment(point, intersection)
+                                edges.add(seg)
+                                del points2[point]
 
                     # deal with E
                     for point in points2:
@@ -46,6 +49,20 @@ def gen_graph(street_db):
                                 for edge in edges:
                                     # if seg contains another edge
                                     if seg.contains_point(edge.point1) and seg.contains_point(edge.point2):
+                                        seg_points = [seg.point1, seg.point2]
+                                        edge_points = [edge.point1, edge.point2]
+                                        for idx1, p1 in enumerate(seg_points):
+                                            for idx2, p2 in enumerate(edge_points):
+                                                if p1 == p2:
+                                                    tmp_seg = Segment(seg_points[1 - idx1], edge_points[1 - idx2])
+                                                    edges.add(tmp_seg)
+                                                    # for e in edges:
+                                                    #     if e.contains(tmp_seg.point1) and e.contains(tmp_seg.point2):
+                                                    #         remaining = e - tmp_seg
+                                                    #         for elem in remaining:
+                                                    #             edges.add
+                                                    #         edges.remove(e)
+                                                    # break
                                         need_adding = False
                                         break
 

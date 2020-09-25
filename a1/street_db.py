@@ -27,9 +27,11 @@ class StreetDB:
         """
         street_segs = {}
         for item in self.streets.items():
-            segs = []
+            # segs = []
+            segs = set()
             for idx, point in enumerate(item[1][:-1]):
-                segs.append(Segment(point, item[1][idx + 1]))
+                # segs.append(Segment(point, item[1][idx + 1]))
+                segs.add(Segment(point, item[1][idx + 1]))
             street_segs[item[0]] = segs
         return street_segs
 

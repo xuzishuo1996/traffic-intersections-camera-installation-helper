@@ -88,6 +88,8 @@ class Segment(object):
     def __hash__(self):
         return self.point1.__hash__() + self.point2.__hash__()
 
+    # def __sub__(self):
+
     def segs_on_same_line(self, seg):
         """
         :param seg: another segment
