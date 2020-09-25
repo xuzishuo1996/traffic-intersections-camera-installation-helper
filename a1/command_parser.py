@@ -50,8 +50,16 @@ def parse_line(line, street_db):
             valid = re.match(street_pattern, street_name)
             if valid is None:
                 print("Error: street name should not contain characters other than letters and whitespaces.")
+                return None, None
             street_name = street_name[1:-1].lower()
             print("street name is: " + street_name)
+
+            # check: at least 1 space between street_name and line segments
+            space_pattern = r"(\s)"
+            valid = re.match(space_pattern, arg_str[quote_pos + 1])
+            if valid is None:
+                print("Error: there should be at least 1 space between street_name and line segments.")
+                return None, None
 
             line_segments = arg_str[quote_pos + 1:].strip()
             if cmd == 'rm':
