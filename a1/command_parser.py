@@ -45,7 +45,14 @@ def parse_line(line, street_db):
             print("Error: 'add'/'mod'/'rm' did not specify a double-quoted street name.")
             return None, None
         else:
-            street_name = arg_str[1:quote_pos].strip()
+            street_name = arg_str[0:quote_pos + 1]      # include "". do not strip()
+            street_pattern = r"(\"[a-zA-Z\s]*\")"
+            valid = re.match(street_pattern, street_name)
+            if valid is None:
+                print("Error: street name should not contain characters other than letters and whitespaces.")
+            street_name = street_name[1:-1].lower()
+            print("street name is: " + street_name)
+
             line_segments = arg_str[quote_pos + 1:].strip()
             if cmd == 'rm':
                 # if street_name not in street_dict:
