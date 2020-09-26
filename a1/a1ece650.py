@@ -33,11 +33,12 @@ def main():
             street_db.remove(val[0])    # val is [] containing a single element
         else:   # gg
             graph = gen_graph(street_db)
-            graph.output_street_vertices()
+            # for test only
+            # graph.output_street_vertices()
             graph.output()
-            # print("gg to be completed!")
 
-        print(street_db.streets)
+        # for test only
+        # print(street_db.streets)
 
     # print("Finished reading input")
     # return exit code 0 on successful termination
