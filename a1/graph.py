@@ -41,9 +41,10 @@ class Graph:
 
         print("E = {")
         edges_list = list(self.edges)
-        for item in edges_list[:-1]:
-            print("  <" + str(output_vertices_dict[item.point1]) + "," + str(output_vertices_dict[item.point2]) + ">,")
-        print("  <" + str(output_vertices_dict[edges_list[-1].point1]) + "," + str(output_vertices_dict[edges_list[-1].point2]) + ">")
+        if len(edges_list) != 0:
+            for item in edges_list[:-1]:
+                print("  <" + str(output_vertices_dict[item.point1]) + "," + str(output_vertices_dict[item.point2]) + ">,")
+            print("  <" + str(output_vertices_dict[edges_list[-1].point1]) + "," + str(output_vertices_dict[edges_list[-1].point2]) + ">")
         print("}")
 
 
