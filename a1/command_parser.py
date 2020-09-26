@@ -52,7 +52,8 @@ def parse_line(line, street_db):
                 print("Error: street name should not contain characters other than letters and whitespaces.")
                 return None, None
             street_name = street_name[1:-1].lower()
-            print("street name is: " + street_name)
+            # for test only
+            # print("street name is: " + street_name)
 
             line_segments = arg_str[quote_pos + 1:].strip()
             if cmd == 'rm':

@@ -33,11 +33,17 @@ class Graph:
             print("  " + str(output_vertices_dict[point]) + ": " + "(" + pp(point.x) + "," + pp(point.y) + ")")
         print("}")
 
-        print("E = {")
-        for item in self.edges:
-            print("  <" + str(item.point1) + "," + str(item.point2) + ">")
+        # for test only
+        # print("E = {")
+        # for item in self.edges:
+        #     print("  <" + str(item.point1) + "," + str(item.point2) + ">")
+        # print("}")
 
-            # print("  <" + str(self.vertices[item.point1]) + "," + str(self.vertices[item.point2]) + ">")
+        print("E = {")
+        edges_list = list(self.edges)
+        for item in edges_list[:-1]:
+            print("  <" + str(output_vertices_dict[item.point1]) + "," + str(output_vertices_dict[item.point2]) + ">,")
+        print("  <" + str(output_vertices_dict[edges_list[-1].point1]) + "," + str(output_vertices_dict[edges_list[-1].point2]) + ">")
         print("}")
 
 
