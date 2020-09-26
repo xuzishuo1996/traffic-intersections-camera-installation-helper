@@ -3,15 +3,34 @@ from intersect import pp
 
 class Graph:
     def __init__(self):
-        self.vertices = {}  # dict (key: Point, value: int - sequence number)
+        self.vertices = {}  # dict(3-level) (key: str(street), val: {key: seg-ref, val: {key: Point, val: int [point-ref]}} )
         self.edges = set()     # set of Segments
         # self.edges = []     # list of Segments
 
+    # for test only
+    def output_street_vertices(self):
+        print("V = {")
+        for street_points in self.vertices.items():
+            print("====== street name: " + street_points[0] + " ======")
+            for seg_points in street_points[1].items():
+                print("    == seg ref: " + str(seg_points[0]) + " ==")
+                for point_ref_pair in seg_points[1].items():
+                    print("        " + str(point_ref_pair[1]) + ": " + pp(point_ref_pair[0]))
+        print("}")
+
+    def gen_output_vertices_dict(self):
+        vertices_dict = {}
+        for sub1_dict in self.vertices.values():
+            for sub2_dict in sub1_dict.values():
+                for point in sub2_dict:
+                    vertices_dict[point] = sub2_dict[point]  # reference_number
+        return vertices_dict
+
     def output(self):   # or __str__, __repr__ ?
         print("V = {")
-        for item in self.vertices.items():
-            # print("  " + str(item[0]) + ":  (" + str(item[1][0]) + "," + str(item[1][1]) + ")")
-            print("  " + str(item[1]) + ":  (" + pp(item[0].x) + "," + pp(item[0].y) + ")")
+        output_vertices_dict = self.gen_output_vertices_dict()
+        for point in output_vertices_dict:
+            print("  " + str(output_vertices_dict[point]) + ": " + "(" + pp(point.x) + "," + pp(point.y) + ")")
         print("}")
 
         print("E = {")

@@ -70,7 +70,7 @@ def parse_line(line, street_db):
                 valid = re.match(space_pattern, arg_str[quote_pos + 1])
                 if valid is None:
                     print("Error: there should be at least 1 space between street_name and line segments.")
-                    return None, None         
+                    return None, None
 
                 if cmd == 'add':
                     # if street_name in street_dict:

@@ -1,6 +1,7 @@
 from itertools import combinations
 import sys
 
+
 def pp(x):
     """Returns a pretty-print string representation of a number.
        A float number is represented by an integer, if it is whole,
@@ -46,6 +47,11 @@ class Point(object):
 
     def __hash__(self):
         return self.x.__hash__() + self.y.__hash__()
+
+    def __lt__(self, other):
+        if self.x == other.x:
+            return self.y < other.y
+        return self.x < other.x
 
     def dist(self, other):
         """
@@ -98,9 +104,20 @@ class Segment(object):
         return three_points_on_same_line(self.point1, self.point2, seg.point1) and \
             three_points_on_same_line(self.point1, self.point2, seg.point2)
 
+    def same_line_intersects(self, seg):
+        """
+        use it only when 2 segments are on e same line
+        :param seg: another segment
+        :return: bool
+        """
+        return (min(self.point1.x, self.point2.x) <= max(seg.point1.x, seg.point2.x)) and \
+            (max(self.point1.x, self.point2.x) >= min(seg.point1.x, seg.point2.x)) and \
+            (min(self.point1.y, self.point2.y) <= max(seg.point1.y, seg.point2.y)) and \
+            (max(self.point1.y, self.point2.y) >= min(seg.point1.y, seg.point2.y))
+
     def overlaps(self, seg):
         """
-        use it only when segments are on the same line
+        use it only when 2 segments are on the same line and intersect
         :param seg: another segment
         :return: set(): intersection points.
                  empty when not overlap
@@ -244,7 +261,7 @@ if __name__ == '__main__':
     # l17 = Segment(Point(5, 5), Point(0, 0))
     # print(l16 == l17)     # True
 
-    # test overlaps: passed
+    # # test overlaps: passed
     # l14 = Segment(Point(0, 0), Point(5, 5))
     # l15 = Segment(Point(1, 1), Point(6, 6))
     # l16 = Segment(Point(1, 1), Point(6, 6))
@@ -268,7 +285,13 @@ if __name__ == '__main__':
     # print(p1 in s)
     # print(p2 in s)
 
-    l19 = Segment(Point(0, 0), Point(5, 5))
-    print(l19.contains_point(Point(5, 5)))
-    print(l19.contains_point(Point(6, 6)))
-    print(l19.contains_point(Point(5, 6)))
+    # l19 = Segment(Point(0, 0), Point(5, 5))
+    # print(l19.contains_point(Point(5, 5)))
+    # print(l19.contains_point(Point(6, 6)))
+    # print(l19.contains_point(Point(5, 6)))
+
+    l20 = Segment(Point(0, 0), Point(5, 5))
+    l21 = Segment(Point(-1, -1), Point(-2, -2))
+    print(l20.segs_on_same_line(l21))
+    print(l20.same_line_intersects(l21))
+    print(min(0, 5) <= max(-1, -2))
