@@ -18,7 +18,7 @@ def main():
     # make sure to remove all spurious print statements as required
     # by the assignment
     while True:
-        line = sys.stdin.readline().strip('\n')
+        line = sys.stdin.readline().strip()
         # line = input("input a command:\n")
         # print("read a line:", line)
         if line == "":

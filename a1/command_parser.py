@@ -20,8 +20,9 @@ def parse_line(line, street_db):
     """
     cmd = None
     args = None
-    striped = line.strip()
-    split = striped.split()
+    # # already striped in main
+    # striped = line.strip()
+    split = line.split()
     if len(split) == 0:
         print("Error: invalid input. should at least provide a command name.")
         return None, None
@@ -33,9 +34,9 @@ def parse_line(line, street_db):
         return None, None
 
     # get the arguments
-    arg_str = striped[len(split[0]):].strip()
+    arg_str = line[len(split[0]):].strip()
     if cmd == "gg":
-        arg_str = striped[len(split[0]):]
+        arg_str = line[len(split[0]):]
         if not len(arg_str) == 0:
             print("Error: 'gg' should not be invoked with any argument.")
             return None, None
