@@ -40,7 +40,7 @@ def main():
             graph.output()
 
         # for test only
-        print(street_db.streets)
+        # print(street_db.streets)
 
     # print("Finished reading input")
     # return exit code 0 on successful termination

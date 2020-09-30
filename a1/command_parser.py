@@ -98,14 +98,12 @@ def parse_line(line, street_db):
                 args = [street_name, []]
                 # parse line segments
                 points = line_segments.split(')')
-                if points[-1] != "":
+                if points[-1] != "":    # example: (1,1) (2,2) asd
                     print("Error: 'add' or 'mod' specified an invalid line segment.")
                     return None, None
-
-                # for test only
+                # # for test only
                 # print(points[-1])
-                print(points)
-
+                # print(points)
                 points.pop()    # the last one is ''
                 if len(points) == 0:
                     print("Error: 'add' or 'mod' specified an invalid line segment.")
@@ -121,6 +119,9 @@ def parse_line(line, street_db):
                         return None, None
                     else:
                         point_str = valid.group()
+                        if len(point_str) != len(point_striped):    # example: '(1, 2' and '(1, 2a'
+                            print("Error: 'add' or 'mod' specified an invalid line segment.")
+                            return None, None
                         # point_str = point_str.replace(' ', '')    # int() could handle whitespaces
                         # point_str = point_str.replace('\t', '')
                         result = get_coordinates(point_str + ')')
