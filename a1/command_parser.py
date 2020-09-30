@@ -98,6 +98,14 @@ def parse_line(line, street_db):
                 args = [street_name, []]
                 # parse line segments
                 points = line_segments.split(')')
+                if points[-1] != "":
+                    print("Error: 'add' or 'mod' specified an invalid line segment.")
+                    return None, None
+
+                # for test only
+                # print(points[-1])
+                print(points)
+
                 points.pop()    # the last one is ''
                 if len(points) == 0:
                     print("Error: 'add' or 'mod' specified an invalid line segment.")
