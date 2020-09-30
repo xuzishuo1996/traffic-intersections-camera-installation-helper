@@ -1,12 +1,8 @@
 import re
 from intersect import Point
 from street_db import StreetDB
-# from a1ece650 import street_dict
 
 command_list = ['add', 'mod', 'rm', 'gg']
-
-# # for test only
-# street_dict = {"a", "b", "c"}
 
 
 def parse_line(line, street_db):
@@ -23,9 +19,9 @@ def parse_line(line, street_db):
     # # already striped in main
     # striped = line.strip()
     split = line.split()
-    if len(split) == 0:
-        print("Error: invalid input. should at least provide a command name.")
-        return None, None
+    # if len(split) == 0:
+    #     print("Error: invalid input. should at least provide a command name.")
+    #     return None, None
 
     # get the command
     cmd = split[0]
@@ -41,6 +37,9 @@ def parse_line(line, street_db):
             print("Error: 'gg' should not be invoked with any argument.")
             return None, None
     else:       # get the street name
+        if len(arg_str) == 0:
+            print("Error: 'add'/'mod'/'rm' did not specify any arguments.")
+            return None, None
         quote_pos = arg_str.find('"', 1)    # 1 - the second '"', idx start from 0
         if arg_str[0] != '"' or quote_pos == -1:    # first condition: add d" (1,2) (3,4)
             print("Error: 'add'/'mod'/'rm' did not specify a double-quoted street name.")
@@ -67,6 +66,10 @@ def parse_line(line, street_db):
                     return None, None
                 return cmd, [street_name]
             else:
+                if quote_pos == len(arg_str) - 1:
+                    print("Error: 'add'/'mod' did not specify line segments.")
+                    return None, None
+
                 # check: at least 1 space between street_name and line segments
                 space_pattern = r"(\s)"
                 valid = re.match(space_pattern, arg_str[quote_pos + 1])
@@ -96,6 +99,9 @@ def parse_line(line, street_db):
                 # parse line segments
                 points = line_segments.split(')')
                 points.pop()    # the last one is ''
+                if len(points) == 0:
+                    print("Error: 'add' or 'mod' specified an invalid line segment.")
+                    return None, None
                 # construct a pattern for (x,y) coordinates
                 # pattern = r"(\(\s*-?\d+\s*,\s*-?\d+\s*\))"
                 pattern = r"(\(\s*-?\d+\s*,\s*-?\d+\s*)"
