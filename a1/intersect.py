@@ -1,5 +1,6 @@
 from itertools import combinations
-import sys
+
+# Reference: sample code of ece650
 
 
 def pp(x):

@@ -3,22 +3,23 @@ import sys
 from command_parser import parse_line
 from street_db import StreetDB
 from graph_generator import gen_graph
-
-# street_dict = {}
-
+from graph import Graph
 
 # YOUR CODE GOES HERE
+
 
 def main():
     # YOUR MAIN CODE GOES HERE
     street_db = StreetDB()
+    graph = Graph()
+    count = 1
 
     # sample code to read from stdin.
     # make sure to remove all spurious print statements as required
     # by the assignment
     while True:
-        # line = sys.stdin.readline()
-        line = input("input a command:\n")
+        line = sys.stdin.readline().strip('\n')
+        # line = input("input a command:\n")
         # print("read a line:", line)
         if line == "":
             break
@@ -32,7 +33,8 @@ def main():
         elif cmd == 'rm':
             street_db.remove(val[0])    # val is [] containing a single element
         else:   # gg
-            graph = gen_graph(street_db)
+            prev_vertices = graph.gen_output_vertices_dict()
+            graph, count = gen_graph(street_db, prev_vertices, count)
             # for test only
             # graph.output_street_vertices()
             graph.output()
