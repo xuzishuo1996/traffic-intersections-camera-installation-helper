@@ -33,7 +33,7 @@ def parse_line(line, street_db):
     arg_str = line[len(split[0]):].strip()
     if cmd == "gg":
         arg_str = line[len(split[0]):]
-        if not len(arg_str) == 0:
+        if len(arg_str) != 0:
             print("Error: 'gg' should not be invoked with any argument.")
             return None, None
     else:       # get the street name
@@ -66,7 +66,10 @@ def parse_line(line, street_db):
                     return None, None
                 return cmd, [street_name]
             else:
-                if quote_pos == len(arg_str) - 1:
+                # if quote_pos == len(arg_str) - 1:
+                #     print("Error: 'add'/'mod' did not specify line segments.")
+                #     return None, None
+                if len(line_segments) == 0:
                     print("Error: 'add'/'mod' did not specify line segments.")
                     return None, None
 
@@ -90,10 +93,6 @@ def parse_line(line, street_db):
                     if not street_db.contains(street_name):
                         print("Error: 'mod' specified a street that does not exist.")
                         return None, None
-
-                if len(line_segments) == 0:
-                    print("Error: 'add'/'mod' did not specify line segments.")
-                    return None, None
 
                 args = [street_name, []]
                 # parse line segments
