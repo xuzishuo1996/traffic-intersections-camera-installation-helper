@@ -1,4 +1,5 @@
 import re
+import sys
 from intersect import Point
 from street_db import StreetDB
 
@@ -8,7 +9,7 @@ command_list = ['add', 'mod', 'rm', 'gg']
 def parse_line(line, street_db):
     """
     Parse an input line and return command and arguments.
-    Print a message on error.
+    Print a message to stderr on error.
 
     :returns cmd: str
              args: list. [str, [(), (), ...]]. a list containing street name(str) and a list of point tuples
@@ -20,13 +21,13 @@ def parse_line(line, street_db):
     # striped = line.strip()
     split = line.split()
     # if len(split) == 0:
-    #     print("Error: invalid input. should at least provide a command name.")
+    #     sys.stderr.write("Error: invalid input. should at least provide a command name.\n")
     #     return None, None
 
     # get the command
     cmd = split[0]
     if cmd not in command_list:
-        print("Error: specified a command that does not exist.")
+        sys.stderr.write("Error: specified a command that does not exist.\n")
         return None, None
 
     # get the arguments
@@ -34,22 +35,22 @@ def parse_line(line, street_db):
     if cmd == "gg":
         arg_str = line[len(split[0]):]
         if len(arg_str) != 0:
-            print("Error: 'gg' should not be invoked with any argument.")
+            sys.stderr.write("Error: 'gg' should not be invoked with any argument.\n")
             return None, None
     else:       # get the street name
         if len(arg_str) == 0:
-            print("Error: 'add'/'mod'/'rm' did not specify any arguments.")
+            sys.stderr.write("Error: 'add'/'mod'/'rm' did not specify any arguments.\n")
             return None, None
         quote_pos = arg_str.find('"', 1)    # 1 - the second '"', idx start from 0
         if arg_str[0] != '"' or quote_pos == -1:    # first condition: add d" (1,2) (3,4)
-            print("Error: 'add'/'mod'/'rm' did not specify a double-quoted street name.")
+            sys.stderr.write("Error: 'add'/'mod'/'rm' did not specify a double-quoted street name.\n")
             return None, None
         else:
             street_name = arg_str[0:quote_pos + 1]      # include "". do not strip()
             street_pattern = r"(\"[a-zA-Z\s]*\")"
             valid = re.match(street_pattern, street_name)
             if valid is None:
-                print("Error: street name should not contain characters other than letters and whitespaces.")
+                sys.stderr.write("Error: street name should not contain characters other than letters and whitespaces.\n")
                 return None, None
             street_name = street_name[1:-1].lower()
             # for test only
@@ -59,53 +60,53 @@ def parse_line(line, street_db):
             if cmd == 'rm':
                 # if street_name not in street_dict:
                 if not street_db.contains(street_name):
-                    print("Error: 'rm' specified a street that does not exist.")
+                    sys.stderr.write("Error: 'rm' specified a street that does not exist.\n")
                     return None, None
                 if len(line_segments) != 0:
-                    print("Error: 'rm' specified more than 1 argument.")
+                    sys.stderr.write("Error: 'rm' specified more than 1 argument.\n")
                     return None, None
                 return cmd, [street_name]
             else:
                 # if quote_pos == len(arg_str) - 1:
-                #     print("Error: 'add'/'mod' did not specify line segments.")
+                #     sys.stderr.write("Error: 'add'/'mod' did not specify line segments.\n")
                 #     return None, None
                 if len(line_segments) == 0:
-                    print("Error: 'add'/'mod' did not specify line segments.")
+                    sys.stderr.write("Error: 'add'/'mod' did not specify line segments.\n")
                     return None, None
 
                 # check: at least 1 space between street_name and line segments
                 space_pattern = r"(\s)"
                 valid = re.match(space_pattern, arg_str[quote_pos + 1])
                 if valid is None:
-                    print("Error: there should be at least 1 space between street_name and line segments.")
+                    sys.stderr.write("Error: there should be at least 1 space between street_name and line segments.\n")
                     return None, None
 
                 if cmd == 'add':
                     # if street_name in street_dict:
                     if street_db.contains(street_name):
-                        print("Error: 'add' specified a street that already existed.")
+                        sys.stderr.write("Error: 'add' specified a street that already existed.\n")
                         return None, None
                     if street_name == "":
-                        print("Error: 'add' specified an empty street name.")
+                        sys.stderr.write("Error: 'add' specified an empty street name.\n")
                         return None, None
                 else:   # 'mod'
                     # if street_name not in street_dict:
                     if not street_db.contains(street_name):
-                        print("Error: 'mod' specified a street that does not exist.")
+                        sys.stderr.write("Error: 'mod' specified a street that does not exist.\n")
                         return None, None
 
                 args = [street_name, []]
                 # parse line segments
                 points = line_segments.split(')')
                 if points[-1] != "":    # example: (1,1) (2,2) asd
-                    print("Error: 'add' or 'mod' specified an invalid line segment.")
+                    sys.stderr.write("Error: 'add' or 'mod' specified an invalid line segment.\n")
                     return None, None
                 # # for test only
                 # print(points[-1])
                 # print(points)
                 points.pop()    # the last one is ''
                 if len(points) == 0:
-                    print("Error: 'add' or 'mod' specified an invalid line segment.")
+                    sys.stderr.write("Error: 'add' or 'mod' specified an invalid line segment.\n")
                     return None, None
                 # construct a pattern for (x,y) coordinates
                 # pattern = r"(\(\s*-?\d+\s*,\s*-?\d+\s*\))"
@@ -114,12 +115,12 @@ def parse_line(line, street_db):
                     point_striped = point.strip()
                     valid = re.match(pattern, point_striped)
                     if not valid:
-                        print("Error: 'add' or 'mod' specified an invalid line segment.")
+                        sys.stderr.write("Error: 'add' or 'mod' specified an invalid line segment.\n")
                         return None, None
                     else:
                         point_str = valid.group()
                         if len(point_str) != len(point_striped):    # example: '(1, 2' and '(1, 2a'
-                            print("Error: 'add' or 'mod' specified an invalid line segment.")
+                            sys.stderr.write("Error: 'add' or 'mod' specified an invalid line segment.\n")
                             return None, None
                         # point_str = point_str.replace(' ', '')    # int() could handle whitespaces
                         # point_str = point_str.replace('\t', '')
@@ -129,7 +130,7 @@ def parse_line(line, street_db):
                         else:
                             args[1].append(result)
                 if len(args[1]) == 1:
-                    print("Error: 'add' or 'mod' specified only 1 point. at least 2 points.")
+                    sys.stderr.write("Error: 'add' or 'mod' specified only 1 point. at least 2 points.\n")
                     return None, None
 
     return cmd, args
