@@ -1,3 +1,5 @@
+import sys
+
 class Matrix:
     def __init__(self, row=0, col=0, fill=0):
         """
@@ -46,7 +48,26 @@ def print_matrix(matrix):
         print(s)
 
 
+def parse_matrix():
+    """
+    for question c)
+    """
+    row = int(sys.stdin.readline().strip())
+    # input_values = sys.stdin.readline().strip('|').strip().split(',')
+    input_values = sys.stdin.readline().strip().strip('|').strip().split(',')
+    col = len(input_values)
+    res = Matrix(row, col)
+    res.values[0] = [int(value) for value in input_values]
+    for i in range(1, row):
+        input_values = sys.stdin.readline().strip().strip('|').strip().split(',')
+        res.values[i] = [int(value) for value in input_values]
+    return res
+
+
 def matrix_mul(A, B):
+    """
+    for question d)
+    """
     if A.col != B.row:
         raise Exception("multiplication between A and B is not possible")
     res = Matrix(A.row, B.col)
@@ -60,5 +81,6 @@ def matrix_mul(A, B):
 
 
 
-matrix = Matrix(2, 3)
-print_matrix(matrix)
+# matrix = Matrix(2, 3)
+# print_matrix(matrix)
+parse_matrix()
