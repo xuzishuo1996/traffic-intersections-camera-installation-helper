@@ -84,7 +84,7 @@ class SparseMatrix:
     for question e)
     """
 
-    def __init__(self, row=0, col=0, fill=0):
+    def __init__(self, row=0, col=0):
         """
         row: row number
         col: column number
@@ -133,8 +133,19 @@ def sparse_matrix_mul(A, B):
     for question i)
     :return: SparseMatrix
     """
-    
+    if A.col != B.row:
+        raise Exception("multiplication between A and B is not possible")
+    res = SparseMatrix(A.row, B.col)
+    for row_A, sub_dict_A in A.values.items():
+        for col_A, value_A in sub_dict_A.items():
+            if col_A in B.values.keys():
+                for col_B, value_B in B.values[col_A].items():
+                    if row_A not in A.values:
+                        res.values[row_A] = {}
+                    res.values[row_A][col_B] += value_A * value_B
+    return res
 
+# ======= Tests ====== #
 # matrix = Matrix(2, 3)
 # print_matrix(matrix)
 
