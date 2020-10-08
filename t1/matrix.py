@@ -123,11 +123,11 @@ def sparse(M):
     res = SparseMatrix(M.row, M.col)
     for i in range(0, M.row):
         for j in range(0, M.col):
-            # add to triplets (sparse representation)
-            res.triplets.append([i, j, M.values[i][j]])
-
-            # add to 2-level dict
             if M.values[i][j] != 0:
+                # add to triplets (sparse representation)
+                res.triplets.append([i, j, M.values[i][j]])
+
+                # add to 2-level dict
                 if i not in res.values:
                     res.values[i] = {}
                 res.values[i][j] = M.values[i][j]
@@ -163,6 +163,27 @@ def sparse_matrix_mul(A, B):
 # C = matrix_mul(A, B)
 # print_matrix(C)
 
-D = parse_matrix()
-E = sparse(D)
-print_matrix(D)
+# D = parse_matrix()
+# E = sparse(D)
+# print_matrix(D)
+
+
+F = Matrix(4, 5)
+F.values = [
+    [0, 0, 3, 0, 4],
+    [0, 0, 5, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 2, 6, 0, 0],
+]
+sparse_F = sparse(F)
+G = Matrix(5, 1)
+G.values = [
+    [1],
+    [1],
+    [0],
+    [0],
+    [1],
+]
+sparse_G = sparse(G)
+sparse_res = sparse_matrix_mul(sparse_F * sparse_G)
+a = 1
