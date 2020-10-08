@@ -79,8 +79,13 @@ def matrix_mul(A, B):
     return res
 
 
-
-
 # matrix = Matrix(2, 3)
 # print_matrix(matrix)
-parse_matrix()
+
+# pass test for a) - d)
+# A = parse_matrix()
+# print_matrix(A)
+# B = parse_matrix()
+# print_matrix(B)
+# C = matrix_mul(A, B)
+# print_matrix(C)
