@@ -148,8 +148,10 @@ def sparse_matrix_mul(A, B):
                 for col_B, value_B in B.values[col_A].items():
                     if row_A not in res.values:
                         res.values[row_A] = {}
-                    prev_val = res.values[row_A][col_B]
-                    res.values[row_A][col_B] = prev_val + value_A * value_B
+                        res.values[row_A][col_B] = 0
+                    res.values[row_A][col_B] += value_A * value_B
+
+                    # convert to standard sparse representation to be completed. trivial.
     return res
 
 
