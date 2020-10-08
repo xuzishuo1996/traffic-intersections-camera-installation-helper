@@ -88,10 +88,12 @@ class SparseMatrix:
         """
         row: row number
         col: column number
+        triplets: sparse representation in accordance with the instruction
         values: 2-level dict {key: row, {key: col, val: value} }
         """
         self.row = row
         self.col = col
+        self.triplets = []
         self.values = {}
 
     def get_row_number(self):
@@ -121,6 +123,10 @@ def sparse(M):
     res = SparseMatrix(M.row, M.col)
     for i in range(0, M.row):
         for j in range(0, M.col):
+            # add to triplets (sparse representation)
+            res.triplets.append([i, j, M.values[i][j]])
+
+            # add to 2-level dict
             if M.values[i][j] != 0:
                 if i not in res.values:
                     res.values[i] = {}
@@ -156,3 +162,7 @@ def sparse_matrix_mul(A, B):
 # print_matrix(B)
 # C = matrix_mul(A, B)
 # print_matrix(C)
+
+D = parse_matrix()
+E = sparse(D)
+print_matrix(D)
