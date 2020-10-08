@@ -79,6 +79,62 @@ def matrix_mul(A, B):
     return res
 
 
+class SparseMatrix:
+    """
+    for question e)
+    """
+
+    def __init__(self, row=0, col=0, fill=0):
+        """
+        row: row number
+        col: column number
+        values: 2-level dict {key: row, {key: col, val: value} }
+        """
+        self.row = row
+        self.col = col
+        self.values = {}
+
+    def get_row_number(self):
+        return self.row
+
+    def get_col_number(self):
+        return self.col
+
+    def get_item(self, row, col):
+        if row < 0 or row >= self.row:
+            raise Exception("row number is out of range!")
+        if col < 0 or col >= self.col:
+            raise Exception("row number is out of range!")
+        if row in self.values:
+            sub_dict = self.values[row]
+            if col in sub_dict:
+                return sub_dict[col]
+        return 0
+
+
+def sparse(M):
+    """
+    for question f)
+    :param M: SparseMatrix
+    :return: Matrix
+    """
+    res = SparseMatrix(M.row, M.col)
+    for i in range(0, M.row):
+        for j in range(0, M.col):
+            if M.values[i][j] != 0:
+                if i not in res.values:
+                    res.values[i] = {}
+                res.values[i][j] = M.values[i][j]
+    return res
+
+
+def sparse_matrix_mul(A, B):
+    """
+    for question i)
+    :return: SparseMatrix
+    """
+    
+
 # matrix = Matrix(2, 3)
 # print_matrix(matrix)
 
