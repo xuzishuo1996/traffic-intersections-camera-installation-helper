@@ -146,44 +146,58 @@ def sparse_matrix_mul(A, B):
         for col_A, value_A in sub_dict_A.items():
             if col_A in B.values.keys():
                 for col_B, value_B in B.values[col_A].items():
-                    if row_A not in A.values:
+                    if row_A not in res.values:
                         res.values[row_A] = {}
-                    res.values[row_A][col_B] += value_A * value_B
+                    prev_val = res.values[row_A][col_B]
+                    res.values[row_A][col_B] = prev_val + value_A * value_B
     return res
 
-# ======= Tests ====== #
-# matrix = Matrix(2, 3)
-# print_matrix(matrix)
 
-# pass test for a) - d)
-# A = parse_matrix()
-# print_matrix(A)
-# B = parse_matrix()
-# print_matrix(B)
-# C = matrix_mul(A, B)
-# print_matrix(C)
+"""
+Question Answers
+g) [2 point] Is sparse(M) always more efficient (takes less memory) than `M`? Explain your answer.
+Answer: It depends on whehter the matrix is sparse enough. each element in the sparse matrix takes 3 time memory as an orindary matrix.
+Therefore, only when the non-zero elements take up less than 1/3 of total elements, do the sparse becomes more efficient.
 
-# D = parse_matrix()
-# E = sparse(D)
-# print_matrix(D)
+h) [3 points] Can your function matrix_mul be used to multiply a Matrix and a SparseMatrix? Explain your answer.
+Answer: No. Because the input parameters are 2 Matrices, and their internal representation is different. A SparseMatrix won't work
+even if considering duck typing.
+"""
 
 
-F = Matrix(4, 5)
-F.values = [
-    [0, 0, 3, 0, 4],
-    [0, 0, 5, 0, 0],
-    [0, 0, 0, 0, 0],
-    [0, 2, 6, 0, 0],
-]
-sparse_F = sparse(F)
-G = Matrix(5, 1)
-G.values = [
-    [1],
-    [1],
-    [0],
-    [0],
-    [1],
-]
-sparse_G = sparse(G)
-sparse_res = sparse_matrix_mul(sparse_F * sparse_G)
-a = 1
+# # ======= Tests ====== #
+# # matrix = Matrix(2, 3)
+# # print_matrix(matrix)
+#
+# # pass test for a) - d)
+# # A = parse_matrix()
+# # print_matrix(A)
+# # B = parse_matrix()
+# # print_matrix(B)
+# # C = matrix_mul(A, B)
+# # print_matrix(C)
+#
+# # D = parse_matrix()
+# # E = sparse(D)
+# # print_matrix(D)
+#
+#
+# F = Matrix(4, 5)
+# F.values = [
+#     [0, 0, 3, 0, 4],
+#     [0, 0, 5, 0, 0],
+#     [0, 0, 0, 0, 0],
+#     [0, 2, 6, 0, 0],
+# ]
+# sparse_F = sparse(F)
+# G = Matrix(5, 1)
+# G.values = [
+#     [1],
+#     [1],
+#     [0],
+#     [0],
+#     [1],
+# ]
+# sparse_G = sparse(G)
+# sparse_res = sparse_matrix_mul(sparse_F, sparse_G)
+# a = 1
