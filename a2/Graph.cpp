@@ -32,7 +32,7 @@ void Graph::set_edges(const std::vector<Edge> &edges)
 void Graph::get_shortest_path(unsigned src, unsigned dst)
 {
     unsigned num = adj_list.size() - 1;
-    if (src > num || dst > num)
+    if (src > num || dst > num || src == 0 || dst == 0)
     {
         std::cerr << "Error: the input source or destination does not exist." << std::endl;
         return;

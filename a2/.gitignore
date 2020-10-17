@@ -5,3 +5,8 @@ build/
 *.class
 
 .vscode/
+
+
+# test output
+my_output/
+my_error/
