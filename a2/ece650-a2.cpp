@@ -40,8 +40,6 @@ std::vector<Edge> gen_edges_from_input(std::string input, unsigned idx_limit)
 
     for (; iter != std::sregex_iterator{}; ++iter)
     {
-        // std::cout << (*iter)[0] << '\n';
-
         Edge edge;
         // below 5 lines are adapted from: https://stackoverflow.com/questions/236129/how-do-i-iterate-over-the-words-of-a-string
         std::istringstream iss((*iter)[0]);
@@ -88,14 +86,14 @@ std::vector<Edge> gen_edges_from_input(std::string input, unsigned idx_limit)
         }
     }
 
-    // for test only
-    std::cout << "output edges: " << '\n';
-    std::cout << "edges size(): " << edges.size() << '\n';
-    for (std::vector<Edge>::const_iterator iter = edges.begin(); iter != edges.end(); ++iter)
-    {
-        std::cout << '<' << (*iter).first << ',' << (*iter).second << "> ";
-    }
-    std::cout << std::endl;
+    // // for test only
+    // std::cout << "output edges: " << '\n';
+    // std::cout << "edges size(): " << edges.size() << '\n';
+    // for (std::vector<Edge>::const_iterator iter = edges.begin(); iter != edges.end(); ++iter)
+    // {
+    //     std::cout << '<' << (*iter).first << ',' << (*iter).second << "> ";
+    // }
+    // std::cout << std::endl;
 
     return edges;
 }
@@ -107,8 +105,8 @@ int main(int argc, char **argv)
     // read from stdin until EOF
     while (!std::cin.eof())
     {
-        // print a promt
-        std::cout << "Enter a command" << std::endl;
+        // // print a promt
+        // std::cout << "Enter a command" << std::endl;
 
         // read a line of input until EOL and store in a string
         std::string line;
