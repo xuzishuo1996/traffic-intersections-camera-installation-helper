@@ -53,7 +53,7 @@ std::vector<Edge> gen_edges_from_input(std::string input, unsigned idx_limit)
                 unsigned v = (unsigned)stoi(item);
                 if (v > idx_limit || v == 0)
                 {
-                    std::cerr << "Error: a vertex does not exist." << std::endl;
+                    std::cerr << "Error: edges include a vertex does not exist." << std::endl;
                     edges = {};
                     return edges;
                 }
@@ -126,25 +126,23 @@ int main(int argc, char **argv)
             input >> cmd; // ignore leading whitespaces
             if (input.fail())
             {
-                std::cerr << "Error: the command is invalid." << std::endl;
+                std::cerr << "Error: the command is invalid 1." << std::endl;
                 break;
             }
-            switch (cmd)
-            {
-            case 'V':
+
+            if (cmd == 'V')
             {
                 unsigned vertex_num;
                 input >> vertex_num;
                 if (input.fail())
                 {
-                    std::cerr << "Error: the command is invalid." << std::endl;
+                    std::cerr << "Error: the command is invalid 2." << std::endl;
                     break;
                 }
                 graph = new Graph(vertex_num);
                 break;
             }
-
-            case 'E':
+            else if (cmd == 'E')
             {
                 std::vector<Edge> edges;
                 std::string remaining;
@@ -156,31 +154,28 @@ int main(int argc, char **argv)
                 }
                 break;
             }
-
-            case 's':
+            else if (cmd == 's')
             {
                 unsigned src, dst;
                 input >> src;
                 if (input.fail())
                 {
-                    std::cerr << "Error: the command is invalid." << std::endl;
+                    std::cerr << "Error: the command is invalid 3." << std::endl;
                     break;
                 }
                 input >> dst;
                 if (input.fail())
                 {
-                    std::cerr << "Error: the command is invalid." << std::endl;
+                    std::cerr << "Error: the command is invalid 4." << std::endl;
                     break;
                 }
                 graph->get_shortest_path(src, dst);
                 break;
             }
-
-            default:
+            else
             {
-                std::cerr << "Error: the command is invalid" << std::endl;
+                std::cerr << "Error: the command is invalid 5" << std::endl;
                 break;
-            }
             }
         }
     }
