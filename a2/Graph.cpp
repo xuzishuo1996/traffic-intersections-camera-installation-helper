@@ -41,6 +41,7 @@ void Graph::get_shortest_path(unsigned src, unsigned dst)
     if (src == dst)
     {
         std::cout << src << '-' << src << std::endl;
+        return;
     }
 
     // unsigned path_table[num + 1];
