@@ -123,10 +123,10 @@ int main(int argc, char **argv)
         {
             char cmd;
             // parse the command name
-            input >> cmd; // ignore leading whitespaces
-            if (input.fail())
+            input >> cmd;     // ignore leading whitespaces
+            if (input.fail()) // input contains only whitespaces
             {
-                std::cerr << "Error: the command is invalid 1." << std::endl;
+                // std::cerr << "Error: the command is invalid 1." << std::endl;
                 break;
             }
 
