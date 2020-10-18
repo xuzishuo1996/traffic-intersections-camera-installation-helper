@@ -2,14 +2,12 @@
 #include <iostream>
 #include <queue>
 #include <climits>
-// #include <array>
 
 Graph::Graph(){};
 
 // set the capacity of adj_list to vertex_num + 1, index 0 is not used for convenience
 Graph::Graph(unsigned vertex_num) : vertex_num(vertex_num), adj_list({vertex_num + 1})
 {
-    // adj_list.reserve(vertex_num);
 }
 
 Graph::~Graph()
@@ -32,7 +30,7 @@ void Graph::set_edges(const std::vector<Edge> &edges)
 void Graph::get_shortest_path(unsigned src, unsigned dst)
 {
     unsigned num = adj_list.size() - 1;
-    if (src > num || dst > num || src == 0 || dst == 0)
+    if (src > num || src <= 0 || dst > num || dst <= 0)
     {
         std::cerr << "Error: the input source or destination does not exist." << std::endl;
         return;
@@ -43,9 +41,6 @@ void Graph::get_shortest_path(unsigned src, unsigned dst)
         std::cout << src << '-' << src << std::endl;
         return;
     }
-
-    // unsigned path_table[num + 1];
-    // std::array<unsigned, num> path_table{10, 20, 30}; // the second para in the template must have a constant value
 
     // store the previous vertex of the find shortest path algorithm.
     std::vector<unsigned> path_table(num + 1, UINT_MAX);

@@ -7,34 +7,21 @@
 #include <regex>
 #include "Graph.hpp"
 
-// // below 3 utilities adapted from: https://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
-// // trim from start (in place)
-// void ltrim(std::string &s, unsigned char delimiter)
-// {
-//     s.erase(s.begin(), std::find_if(s.begin(), s.end(), [delimiter](unsigned char ch) {
-//                 return !std::isspace(ch) && ch != delimiter;
-//             }));
-// }
-
-// // trim from end (in place)
-// void rtrim(std::string &s, unsigned char delimiter)
-// {
-//     s.erase(std::find_if(s.rbegin(), s.rend(), [delimiter](unsigned char ch) {
-//                 return !std::isspace(ch) && ch != delimiter;
-//             }).base(),
-//             s.end());
-// }
-
-// // trim from both ends (in place)
-// void trim(std::string &s, unsigned char delimiter)
-// {
-//     ltrim(s, delimiter);
-//     rtrim(s, delimiter);
-// }
-
 std::vector<Edge> gen_edges_from_input(std::string input, unsigned idx_limit)
 {
-    std::vector<Edge> edges;
+    std::vector<Edge> edges; // return value
+
+    // check '-': ensure there are no vertices with a negative reference number
+    std::string::iterator pos = std::find_if(input.begin(), input.end(), [](char ch) {
+        return ch == '-';
+    });
+    if (pos != input.end())
+    {
+        std::cerr << "Error: edges include a vertex does not exist." << std::endl;
+        edges = {};
+        return edges;
+    }
+
     std::regex pat{R"((\d+)\s*,\s*(\d+))"};
     std::sregex_iterator iter(input.begin(), input.end(), pat);
 
@@ -49,7 +36,7 @@ std::vector<Edge> gen_edges_from_input(std::string input, unsigned idx_limit)
             if (std::getline(iss, item, ','))
             {
                 unsigned v = (unsigned)stoi(item);
-                if (v > idx_limit || v == 0)
+                if (v > idx_limit || v <= 0)
                 {
                     std::cerr << "Error: edges include a vertex does not exist." << std::endl;
                     edges = {};
@@ -71,7 +58,6 @@ std::vector<Edge> gen_edges_from_input(std::string input, unsigned idx_limit)
                 return edges;
             }
         }
-        // std::cout << "\n";
 
         // // ensures that the input edge have only 2 vertices
         // if (std::getline(iss, item, ','))
