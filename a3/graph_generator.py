@@ -17,10 +17,9 @@ def in_embedded_dict(target, dictionary):
     return None
 
 
-def gen_graph(street_db, prev_vertices, count):
+def gen_graph(street_db, count):
     """
     :param street_db
-    :param prev_vertices: dict of vertices
     :param count: next index of new vertex
     generate graph from scratch, not incrementally
     """
@@ -58,7 +57,8 @@ def gen_graph(street_db, prev_vertices, count):
                     street2_points.add(intersection)
 
                 # generate V
-                points1 = {(street1, i): street1_points, (street2, j): street2_points}  # val: set()
+                points1 = {(street1, i): street1_points,
+                           (street2, j): street2_points}  # val: set()
                 for street_points in points1.items():
                     tmp_street = street_points[0][0]
                     tmp_seg = street_points[0][1]
@@ -71,12 +71,8 @@ def gen_graph(street_db, prev_vertices, count):
                             vertices[tmp_street][tmp_seg] = dict()
                         point_ref = in_embedded_dict(point, vertices)
                         if point_ref is None:
-                            if point in prev_vertices:
-                                point_ref = prev_vertices[point]
-                                vertices[tmp_street][tmp_seg][point] = point_ref
-                            else:
-                                vertices[tmp_street][tmp_seg][point] = count
-                                count += 1
+                            vertices[tmp_street][tmp_seg][point] = count
+                            count += 1
                         else:
                             vertices[tmp_street][tmp_seg][point] = point_ref
 

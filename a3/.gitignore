@@ -1,0 +1,5 @@
+##### 1. Python #####
+__pycache__/
+
+##### 2. VS Code #####
+.vscode/

@@ -12,7 +12,7 @@ def main():
     # YOUR MAIN CODE GOES HERE
     street_db = StreetDB()
     graph = Graph()
-    count = 1
+    # count = 1
 
     # sample code to read from stdin.
     # make sure to remove all spurious print statements as required
@@ -32,9 +32,10 @@ def main():
             street_db.modify(val)
         elif cmd == 'rm':
             street_db.remove(val[0])    # val is [] containing a single element
-        else:   # gg
-            prev_vertices = graph.gen_output_vertices_dict()
-            graph, count = gen_graph(street_db, prev_vertices, count)
+        else:  # gg
+            count = 1
+            # prev_vertices = graph.gen_output_vertices_dict()
+            graph, count = gen_graph(street_db, count)
             # for test only
             # graph.output_street_vertices()
             graph.output()
