@@ -9,8 +9,8 @@ from graph import Graph
 
 
 def main():
-    # for test only
-    print("I am a1 child process!")
+    # # for test only
+    # print("I am a1 child process!")
 
     # YOUR MAIN CODE GOES HERE
     street_db = StreetDB()

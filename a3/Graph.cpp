@@ -29,6 +29,9 @@ void Graph::set_edges(const std::vector<Edge> &edges)
 // use breath-first-search because the graph is unweighted
 void Graph::get_shortest_path(unsigned src, unsigned dst)
 {
+    // for test only
+    std::cout << "enter get_shortest_path" << std::endl;
+
     unsigned num = adj_list.size() - 1;
     if (src > num || src <= 0 || dst > num || dst <= 0)
     {
