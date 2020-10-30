@@ -11,16 +11,17 @@ std::vector<Edge> gen_edges_from_input(std::string input, unsigned idx_limit)
 {
     std::vector<Edge> edges; // return value
 
-    // check '-': ensure there are no vertices with a negative reference number
-    std::string::iterator pos = std::find_if(input.begin(), input.end(), [](char ch) {
-        return ch == '-';
-    });
-    if (pos != input.end())
-    {
-        std::cerr << "Error: edges include a vertex does not exist." << std::endl;
-        edges = {};
-        return edges;
-    }
+    // input from a1 is always legal: do not need it
+    // // check '-': ensure there are no vertices with a negative reference number
+    // std::string::iterator pos = std::find_if(input.begin(), input.end(), [](char ch) {
+    //     return ch == '-';
+    // });
+    // if (pos != input.end())
+    // {
+    //     std::cerr << "Error: edges include a vertex does not exist." << std::endl;
+    //     edges = {};
+    //     return edges;
+    // }
 
     std::regex pat{R"((\d+)\s*,\s*(\d+))"};
     std::sregex_iterator iter(input.begin(), input.end(), pat);
@@ -58,13 +59,6 @@ std::vector<Edge> gen_edges_from_input(std::string input, unsigned idx_limit)
                 return edges;
             }
         }
-
-        // // ensures that the input edge have only 2 vertices
-        // if (std::getline(iss, item, ','))
-        // {
-        //     std::cerr << "Error: the command is invalid." << std::endl;
-        //     return edges;
-        // }
 
         if (edge.first != edge.second)
         {
@@ -136,6 +130,8 @@ int main(int argc, char **argv)
                 {
                     graph->set_edges(edges);
                 }
+                std::cout << "V " << graph->get_vertex_num() << std::endl;
+                std::cout << "E " << remaining << std::endl;
                 break;
             }
             else if (cmd == 's')

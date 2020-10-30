@@ -3,3 +3,6 @@ __pycache__/
 
 ##### 2. VS Code #####
 .vscode/
+
+##### 3 #####
+*.out
