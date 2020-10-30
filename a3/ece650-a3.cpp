@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 
     /* a1 */
     char *a1Args[3];
-    argv[0] = (char *)"python3";
+    a1Args[0] = (char *)"python3";
     a1Args[1] = (char *)"../ece650-a1.py"; // curr path is in build/, so use ../
     a1Args[2] = nullptr;                   // have to include ending nullptr
 
@@ -71,8 +71,6 @@ int main(int argc, char *argv[])
     }
 
     /* rgen */
-    char *RgenArgs[1];
-    RgenArgs[0] = nullptr;
     kid[2] = fork();
     if (kid[2] == 0) // child process: rgen
     {
@@ -82,8 +80,7 @@ int main(int argc, char *argv[])
         close(RgenToA1[0]);
         close(RgenToA1[1]);
 
-        // execv("./build/rgen", argv);
-        execv("./rgen", RgenArgs);
+        execv("./rgen", argv); // ./ is build/
         return 0;
     }
     else if (kid[2] < 0) // fail to fork
