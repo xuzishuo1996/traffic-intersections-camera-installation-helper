@@ -1,4 +1,5 @@
 from intersect import pp
+import sys
 
 
 class Graph:
@@ -39,7 +40,9 @@ class Graph:
         if num > 0:
             s = "V "
             s += str(num)
-            print(s)
+            # print(s)
+            sys.stdout.write(s + '\n')
+            sys.stdout.flush()
 
         edges_list = list(self.edges)
         if len(edges_list) != 0:
@@ -49,7 +52,9 @@ class Graph:
                     output_vertices_dict[item.point2]) + ">,"
             s = s.rstrip(',')
             s += "}"
-            print(s)
+            # print(s)
+            sys.stdout.write(s + '\n')
+            sys.stdout.flush()
 
 
 # # for test only - test graph.output()
