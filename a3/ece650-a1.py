@@ -9,6 +9,10 @@ from graph import Graph
 
 
 def main():
+    # for test only
+    sys.stdout.write("I am a1 child process!")
+    sys.stdout.flush()
+
     # YOUR MAIN CODE GOES HERE
     street_db = StreetDB()
     graph = Graph()
