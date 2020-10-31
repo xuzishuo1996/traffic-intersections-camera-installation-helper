@@ -72,6 +72,12 @@ int main(int argc, char *argv[])
     }
 
     /* rgen */
+    char *rgenArgs[8];
+    for (int i = 1; i < argc; ++i)
+    {
+        rgenArgs[i - 1] = argv[i];
+    }
+
     kid[2] = fork();
     if (kid[2] == 0) // child process: rgen
     {
@@ -81,7 +87,8 @@ int main(int argc, char *argv[])
         close(RgenToA1[0]);
         close(RgenToA1[1]);
 
-        execv("./rgen", argv); // ./ is build/
+        execv("./rgen", rgenArgs); // ./ is build/
+        // execv("./rgen", argv); // ./ is build/
         return 0;
     }
     else if (kid[2] < 0) // fail to fork
