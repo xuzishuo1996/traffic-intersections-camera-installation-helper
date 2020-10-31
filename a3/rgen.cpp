@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <unistd.h>
+#include <vector>
 
 int main(int argc, char **argv)
 {
@@ -63,6 +64,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    int prev_size = 0; // the num of streets in the previous graph, for rm cmd
     while (true)
     {
         // define random numbers
@@ -81,6 +83,8 @@ int main(int argc, char **argv)
         interval = interval % (max_interval - 4) + 5;
         // std::cout << "Random interval: " << interval << "\n";
 
+        std::vector<std::vector<int>> streets;
+
         // gen streets
         for (int i = 0; i < num_of_streets; ++i)
         {
@@ -88,6 +92,8 @@ int main(int argc, char **argv)
             urandom.read((char *)&num_of_segs, sizeof(unsigned));
             num_of_segs = num_of_segs % max_num_of_segs + 1;
             // std::cout << "Random num_of_segs: " << num_of_segs << "\n";
+
+            std::vector<int> street;
 
             for (int j = 0; j <= num_of_segs; ++i) // note: coorindates number = num_of_segs + 1
             {
@@ -97,13 +103,20 @@ int main(int argc, char **argv)
                     urandom.read((char *)&coordinate, sizeof(int));
                     coordinate = coordinate % (max_coordinate_abs + 1);
                     // std::cout << "Random coordinate: " << coordinate << "\n";
+
+                    street.push_back(coordinate);
                 }
             }
             // check streets
+            // if pass check
+            streets.push_back(street);
         }
 
+        // set street name = count number, do not need to store it, just store previous size
         // issue rm
         // issue add
+
+        prev_size = streets.size();
 
         // issue gg
         std::cout << "gg" << std::endl;
