@@ -40,10 +40,14 @@ int main(int argc, char *argv[])
     }
 
     /* a1 */
-    char *a1Args[3];
-    a1Args[0] = (char *)"python3";
-    a1Args[1] = (char *)"../ece650-a1.py"; // curr path is in build/, so use ../
-    a1Args[2] = nullptr;                   // have to include ending nullptr
+    /* It also works, but it's better to make .py executable */
+    // char *a1Args[2];
+    // a1Args[0] = (char *)"python3";
+    // a1Args[1] = (char *)"../ece650-a1.py"; // curr path is in build/, so use ../
+    // a1Args[2] = nullptr;                   // have to include ending nullptr
+
+    char *a1Args[1];
+    a1Args[0] = nullptr;
 
     kid[1] = fork();
     if (kid[1] == 0) // child process: a1
@@ -58,7 +62,7 @@ int main(int argc, char *argv[])
         close(InputToA2[0]);
         close(InputToA2[1]);
 
-        execv("/usr/bin/python3", a1Args);
+        execv("../ece650-a1.py", a1Args);
         return 0;
     }
     else if (kid[1] < 0) // fail to fork
