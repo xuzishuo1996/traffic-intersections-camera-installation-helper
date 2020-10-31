@@ -102,9 +102,17 @@ int main(int argc, char *argv[])
         std::cout << line << std::endl; // redirect s commands to a2
     }
 
-    // sleep(10);
-    std::cout << "I am the parent proc!" << std::endl;
+    // cout EOF
+    // kill
+    for (int i = 0; i < NUM_OF_CHILD_PROC; ++i)
+    {
+        kill(kid[i], SIGTERM);
+    }
 
+    // sleep(10);
+    // std::cout << "I am the parent proc!" << std::endl;
+
+    // can be removed
     int res[NUM_OF_CHILD_PROC];
     for (int i = 0; i < NUM_OF_CHILD_PROC; ++i)
     {
