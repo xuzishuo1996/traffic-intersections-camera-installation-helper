@@ -48,11 +48,11 @@ int main(int argc, char **argv)
             break;
         }
     }
-    // for test only
-    std::cout << "[-s] max_num_of_streets: " << max_num_of_streets << std::endl;
-    std::cout << "[-n] max_num_of_segs: " << max_num_of_segs << std::endl;
-    std::cout << "[-l] max_interval: " << max_interval << std::endl;
-    std::cout << "[-c] max_coordinate_abs: " << max_coordinate_abs << std::endl;
+    // // for test only
+    // std::cout << "[-s] max_num_of_streets: " << max_num_of_streets << std::endl;
+    // std::cout << "[-n] max_num_of_segs: " << max_num_of_segs << std::endl;
+    // std::cout << "[-l] max_interval: " << max_interval << std::endl;
+    // std::cout << "[-c] max_coordinate_abs: " << max_coordinate_abs << std::endl;
 
     // open /dev/urandom to read
     std::ifstream urandom("/dev/urandom");
@@ -65,36 +65,46 @@ int main(int argc, char **argv)
 
     while (true)
     {
-        // gen random numbers
+        // define random numbers
         unsigned num_of_streets;
         unsigned num_of_segs;
         unsigned interval;
         int coordinate;
 
-        // num_of_streets: [2, max_num_of_streets]
+        // gen num_of_streets: [2, max_num_of_streets]
         urandom.read((char *)&num_of_streets, sizeof(unsigned));
         num_of_streets = num_of_streets % (max_num_of_streets - 1) + 2;
-        std::cout << "Random num_of_streets: " << num_of_streets << "\n";
+        // std::cout << "Random num_of_streets: " << num_of_streets << "\n";
 
-        // num_of_segs: [1, max_num_of_segs]
-        urandom.read((char *)&num_of_segs, sizeof(unsigned));
-        num_of_segs = num_of_segs % max_num_of_segs + 1;
-        std::cout << "Random num_of_segs: " << num_of_segs << "\n";
-
-        // interval: [5, max_interval]
+        // gen interval: [5, max_interval]
         urandom.read((char *)&interval, sizeof(unsigned));
         interval = interval % (max_interval - 4) + 5;
-        std::cout << "Random interval: " << interval << "\n";
-
-        // coordinate: [-max_coordinate_abs, max_coordinate_abs]
-        urandom.read((char *)&coordinate, sizeof(int));
-        coordinate = coordinate % (max_coordinate_abs + 1);
-        std::cout << "Random coordinate: " << coordinate << "\n";
+        // std::cout << "Random interval: " << interval << "\n";
 
         // gen streets
-        // check streets
+        for (int i = 0; i < num_of_streets; ++i)
+        {
+            // gen num_of_segs: [1, max_num_of_segs]
+            urandom.read((char *)&num_of_segs, sizeof(unsigned));
+            num_of_segs = num_of_segs % max_num_of_segs + 1;
+            // std::cout << "Random num_of_segs: " << num_of_segs << "\n";
+
+            for (int j = 0; j <= num_of_segs; ++i) // note: coorindates number = num_of_segs + 1
+            {
+                for (int k = 0; k < 2; ++k)
+                {
+                    // gen coordinates: [-max_coordinate_abs, max_coordinate_abs]
+                    urandom.read((char *)&coordinate, sizeof(int));
+                    coordinate = coordinate % (max_coordinate_abs + 1);
+                    // std::cout << "Random coordinate: " << coordinate << "\n";
+                }
+            }
+            // check streets
+        }
+
         // issue rm
         // issue add
+
         // issue gg
         std::cout << "gg" << std::endl;
         // wait for a few seconds
