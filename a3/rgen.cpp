@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <unistd.h>
 
 int main(int argc, char **argv)
@@ -53,17 +54,52 @@ int main(int argc, char **argv)
     std::cout << "[-l] max_interval: " << max_interval << std::endl;
     std::cout << "[-c] max_coordinate_abs: " << max_coordinate_abs << std::endl;
 
-    // while (true)
-    // {
-    //     // gen random numbers
-    //     // gen streets
-    //     // check streets
-    //     // issue rm
-    //     // issue add
-    //     // issue gg
-    //     std::cout << "gg" << std::endl;
-    //     // wait for a few seconds
-    // }
+    // open /dev/urandom to read
+    std::ifstream urandom("/dev/urandom");
+    // check that it did not fail
+    if (urandom.fail())
+    {
+        std::cerr << "Error: cannot open /dev/urandom\n";
+        return 1;
+    }
+
+    while (true)
+    {
+        // gen random numbers
+        unsigned num_of_streets;
+        unsigned num_of_segs;
+        unsigned interval;
+        int coordinate;
+
+        // num_of_streets: [2, max_num_of_streets]
+        urandom.read((char *)&num_of_streets, sizeof(unsigned));
+        num_of_streets = num_of_streets % (max_num_of_streets - 1) + 2;
+        std::cout << "Random num_of_streets: " << num_of_streets << "\n";
+
+        // num_of_segs: [1, max_num_of_segs]
+        urandom.read((char *)&num_of_segs, sizeof(unsigned));
+        num_of_segs = num_of_segs % max_num_of_segs + 1;
+        std::cout << "Random num_of_segs: " << num_of_segs << "\n";
+
+        // interval: [5, max_interval]
+        urandom.read((char *)&interval, sizeof(unsigned));
+        interval = interval % (max_interval - 4) + 5;
+        std::cout << "Random interval: " << interval << "\n";
+
+        // coordinate: [-max_coordinate_abs, max_coordinate_abs]
+        urandom.read((char *)&coordinate, sizeof(int));
+        coordinate = coordinate % (max_coordinate_abs + 1);
+        std::cout << "Random coordinate: " << coordinate << "\n";
+
+        // gen streets
+        // check streets
+        // issue rm
+        // issue add
+        // issue gg
+        std::cout << "gg" << std::endl;
+        // wait for a few seconds
+        sleep(interval);
+    }
 
     // for test only
     // std::cout << "add \"Weber Street\" (2,-1) (2,2) (5,5) (5,6) (3,8)" << std::endl;
@@ -71,5 +107,7 @@ int main(int argc, char **argv)
     // std::cout << "add \"Davenport Road\" (1,4) (5,8)" << std::endl;
     // std::cout << "gg" << std::endl;
 
+    // close random stream
+    urandom.close();
     return 0;
 }
