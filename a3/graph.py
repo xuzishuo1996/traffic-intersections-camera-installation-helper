@@ -37,24 +37,24 @@ class Graph:
         #           ": " + "(" + pp(point.x) + "," + pp(point.y) + ")")
         # print("}")
         num = len(output_vertices_dict)
-        if num > 0:
-            s = "V "
-            s += str(num)
-            # print(s)
-            sys.stdout.write(s + '\n')
-            sys.stdout.flush()
+        # if num > 0:
+        s = "V "
+        s += str(num)
+        # print(s)
+        sys.stdout.write(s + '\n')
+        sys.stdout.flush()
 
         edges_list = list(self.edges)
-        if len(edges_list) != 0:
-            s = "E {"
-            for item in edges_list:
-                s += "<" + str(output_vertices_dict[item.point1]) + "," + str(
-                    output_vertices_dict[item.point2]) + ">,"
-            s = s.rstrip(',')
-            s += "}"
-            # print(s)
-            sys.stdout.write(s + '\n')
-            sys.stdout.flush()
+        # if len(edges_list) != 0:
+        s = "E {"
+        for item in edges_list:
+            s += "<" + str(output_vertices_dict[item.point1]) + \
+                "," + str(output_vertices_dict[item.point2]) + ">,"
+        s = s.rstrip(',')
+        s += "}"
+        # print(s)
+        sys.stdout.write(s + '\n')
+        sys.stdout.flush()
 
 
 # # for test only - test graph.output()
