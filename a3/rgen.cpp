@@ -99,29 +99,26 @@ int main(int argc, char **argv)
             std::vector<Point> street;
             std::vector<Segment> segs;
 
-            for (unsigned j = 0; j <= num_of_segs; ++i) // note: coorindates number = num_of_segs + 1
+            for (unsigned j = 0; j <= num_of_segs; ++j) // note: coorindates number = num_of_segs + 1
             {
                 bool succeed;
                 for (int k = 0; k < 25; ++k)
                 {
                     succeed = true;
-
                     // gen coordinates: [-max_coordinate_abs, max_coordinate_abs]
                     urandom.read((char *)&x, sizeof(int));
                     x = x % (max_coordinate_abs + 1);
                     // std::cout << "Random x: " << x << "\n";
-
                     urandom.read((char *)&y, sizeof(int));
                     y = y % (max_coordinate_abs + 1);
                     // std::cout << "Random y: " << y << "\n";
 
                     Point p = Point(x, y);
                     Segment seg;
-
                     // check validity
-                    // check that 2 adjacent points are not the same
                     if (street.size() > 0)
                     {
+                        // check that 2 adjacent points are not the same
                         if (p == street[street.size() - 1])
                         {
                             succeed = false;
@@ -144,11 +141,13 @@ int main(int argc, char **argv)
                             }
                         }
                     }
-
                     if (succeed)
                     {
                         street.push_back(p);
-                        segs.push_back(seg);
+                        if (street.size() > 0)
+                        {
+                            segs.push_back(seg);
+                        }
                         break;
                     }
                 }
