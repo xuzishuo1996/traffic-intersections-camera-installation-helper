@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "Point.hpp"
 #include "Segment.hpp"
+#include "SegUtility.hpp"
 
 /* calculate the cross product of 2 vectors. */
 int cross_product(const Point p1, const Point p2)
@@ -74,7 +75,7 @@ bool non_adj_segs_valid(const Segment s1, const Segment s2)
     }
 }
 
-int main()
+/*int main()
 {
     Point p1 = Point(1, 1);
     Point p2 = Point(2, 3);
@@ -115,3 +116,4 @@ int main()
     Segment s6 = Segment(Point(4, 4), Point(3, 3));
     std::cout << adj_same_line_intersects(s5, s6) << std::endl; // 1
 }
+*/

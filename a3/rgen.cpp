@@ -4,7 +4,7 @@
 #include <vector>
 #include "Point.hpp"
 #include "Segment.hpp"
-#include "SegUtility.cpp"
+#include "SegUtility.hpp"
 
 int main(int argc, char **argv)
 {
@@ -89,7 +89,7 @@ int main(int argc, char **argv)
         std::vector<std::vector<Point>> streets;
 
         // gen streets
-        for (int i = 0; i < num_of_streets; ++i)
+        for (unsigned i = 0; i < num_of_streets; ++i)
         {
             // gen num_of_segs: [1, max_num_of_segs]
             urandom.read((char *)&num_of_segs, sizeof(unsigned));
@@ -99,7 +99,7 @@ int main(int argc, char **argv)
             std::vector<Point> street;
             std::vector<Segment> segs;
 
-            for (int j = 0; j <= num_of_segs; ++i) // note: coorindates number = num_of_segs + 1
+            for (unsigned j = 0; j <= num_of_segs; ++i) // note: coorindates number = num_of_segs + 1
             {
                 bool succeed = true;
                 for (int k = 0; k < 25; ++k)
@@ -167,7 +167,7 @@ int main(int argc, char **argv)
             std::cout << "rm \"" << i << "\"" << std::endl;
         }
         // issue add
-        for (int i = 0; i < streets.size(); ++i)
+        for (unsigned i = 0; i < streets.size(); ++i)
         {
             std::cout << "add \"" << i << "\" {"; // street name is "i"
             // output the points in a street
