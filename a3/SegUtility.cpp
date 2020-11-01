@@ -48,6 +48,7 @@ bool is_intersected(const Segment s1, const Segment s2)
     return straddle(s1, s2) && straddle(s2, s1);
 }
 
+/* valid: return true */
 bool adj_segs_valid(const Segment s1, const Segment s2)
 {
     if (segs_on_same_line(s1, s2))
@@ -60,6 +61,7 @@ bool adj_segs_valid(const Segment s1, const Segment s2)
     }
 }
 
+/* valid: return true */
 bool non_adj_segs_valid(const Segment s1, const Segment s2)
 {
     if (segs_on_same_line(s1, s2))

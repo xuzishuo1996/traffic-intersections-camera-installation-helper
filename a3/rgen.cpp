@@ -4,6 +4,7 @@
 #include <vector>
 #include "Point.hpp"
 #include "Segment.hpp"
+#include "SegUtility.cpp"
 
 int main(int argc, char **argv)
 {
@@ -96,21 +97,65 @@ int main(int argc, char **argv)
             // std::cout << "Random num_of_segs: " << num_of_segs << "\n";
 
             std::vector<Point> street;
+            std::vector<Segment> segs;
 
             for (int j = 0; j <= num_of_segs; ++i) // note: coorindates number = num_of_segs + 1
             {
+                bool succeed = true;
+                for (int k = 0; k < 25; ++k)
+                {
+                    // gen coordinates: [-max_coordinate_abs, max_coordinate_abs]
+                    urandom.read((char *)&x, sizeof(int));
+                    x = x % (max_coordinate_abs + 1);
+                    // std::cout << "Random x: " << x << "\n";
 
-                // gen coordinates: [-max_coordinate_abs, max_coordinate_abs]
-                urandom.read((char *)&x, sizeof(int));
-                x = x % (max_coordinate_abs + 1);
-                // std::cout << "Random x: " << x << "\n";
+                    urandom.read((char *)&y, sizeof(int));
+                    y = y % (max_coordinate_abs + 1);
+                    // std::cout << "Random y: " << y << "\n";
 
-                urandom.read((char *)&y, sizeof(int));
-                y = y % (max_coordinate_abs + 1);
-                // std::cout << "Random y: " << y << "\n";
+                    Point p = Point(x, y);
+                    Segment seg;
 
-                // check streets
-                street.push_back(Point(x, y));
+                    // check validity
+                    // check that 2 adjacent points are not the same
+                    if (street.size() > 0)
+                    {
+                        if (p == street[street.size() - 1])
+                        {
+                            succeed = false;
+                        }
+                        // check that new segments does not intersect with previous segs in the same street
+                        if (succeed)
+                        {
+                            seg = Segment(street[street.size() - 1], p);
+                            for (int t = 0; t < segs.size() - 1; ++t)
+                            {
+                                if (!non_adj_segs_valid(segs[t], seg))
+                                {
+                                    succeed = false;
+                                    break;
+                                }
+                            }
+                            if (segs.size() > 0 && !adj_segs_valid(segs[segs.size() - 1], seg))
+                            {
+                                succeed = false;
+                            }
+                        }
+                    }
+
+                    if (succeed)
+                    {
+                        street.push_back(p);
+                        segs.push_back(seg);
+                        break;
+                    }
+                }
+
+                if (!succeed)
+                {
+                    std::cerr << "Error: failed to generate valid input for 25 simultaneous attempts" << std::endl;
+                    exit(1);
+                }
             }
             streets.push_back(street);
         }

@@ -9,6 +9,7 @@ public:
     Point p1;
     Point p2;
 
+    Segment() {}
     Segment(const Point &a1, const Point &a2) : p1(a1), p2(a2) {}
     virtual ~Segment() {}
 };
