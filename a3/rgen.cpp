@@ -101,9 +101,11 @@ int main(int argc, char **argv)
 
             for (unsigned j = 0; j <= num_of_segs; ++i) // note: coorindates number = num_of_segs + 1
             {
-                bool succeed = true;
+                bool succeed;
                 for (int k = 0; k < 25; ++k)
                 {
+                    succeed = true;
+
                     // gen coordinates: [-max_coordinate_abs, max_coordinate_abs]
                     urandom.read((char *)&x, sizeof(int));
                     x = x % (max_coordinate_abs + 1);
