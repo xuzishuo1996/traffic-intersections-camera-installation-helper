@@ -48,6 +48,30 @@ bool is_intersected(const Segment s1, const Segment s2)
     return straddle(s1, s2) && straddle(s2, s1);
 }
 
+bool adj_segs_valid(const Segment s1, const Segment s2)
+{
+    if (segs_on_same_line(s1, s2))
+    {
+        return !adj_same_line_intersects(s1, s2);
+    }
+    else
+    {
+        return true;
+    }
+}
+
+bool non_adj_segs_valid(const Segment s1, const Segment s2)
+{
+    if (segs_on_same_line(s1, s2))
+    {
+        return !same_line_intersects(s1, s2);
+    }
+    else
+    {
+        return !is_intersected(s1, s2);
+    }
+}
+
 int main()
 {
     Point p1 = Point(1, 1);
@@ -84,4 +108,8 @@ int main()
 
     std::cout << adj_same_line_intersects(s3, s4) << std::endl; // 0
     std::cout << adj_same_line_intersects(s4, s3) << std::endl; // 0
+
+    Segment s5 = Segment(Point(2, 2), Point(4, 4));
+    Segment s6 = Segment(Point(4, 4), Point(3, 3));
+    std::cout << adj_same_line_intersects(s5, s6) << std::endl; // 1
 }
