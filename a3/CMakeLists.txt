@@ -10,7 +10,7 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/run)
 
 # create the main executable
 ## add additional .cpp files if needed
-add_executable(rgen rgen.cpp)
+add_executable(rgen Point.cpp SegUtility.cpp rgen.cpp)
 add_executable(ece650-a2 Graph.cpp ece650-a2.cpp)
 add_executable(ece650-a3 ece650-a3.cpp)
 

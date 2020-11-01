@@ -2,6 +2,8 @@
 #include <fstream>
 #include <unistd.h>
 #include <vector>
+#include "Point.hpp"
+#include "Segment.hpp"
 
 int main(int argc, char **argv)
 {
@@ -71,7 +73,7 @@ int main(int argc, char **argv)
         unsigned num_of_streets;
         unsigned num_of_segs;
         unsigned interval;
-        int coordinate;
+        int x, y;
 
         // gen num_of_streets: [2, max_num_of_streets]
         urandom.read((char *)&num_of_streets, sizeof(unsigned));
@@ -83,7 +85,7 @@ int main(int argc, char **argv)
         interval = interval % (max_interval - 4) + 5;
         // std::cout << "Random interval: " << interval << "\n";
 
-        std::vector<std::vector<int>> streets;
+        std::vector<std::vector<Point>> streets;
 
         // gen streets
         for (int i = 0; i < num_of_streets; ++i)
@@ -93,33 +95,43 @@ int main(int argc, char **argv)
             num_of_segs = num_of_segs % max_num_of_segs + 1;
             // std::cout << "Random num_of_segs: " << num_of_segs << "\n";
 
-            std::vector<int> street;
+            std::vector<Point> street;
 
             for (int j = 0; j <= num_of_segs; ++i) // note: coorindates number = num_of_segs + 1
             {
-                for (int k = 0; k < 2; ++k)
-                {
-                    // gen coordinates: [-max_coordinate_abs, max_coordinate_abs]
-                    urandom.read((char *)&coordinate, sizeof(int));
-                    coordinate = coordinate % (max_coordinate_abs + 1);
-                    // std::cout << "Random coordinate: " << coordinate << "\n";
 
-                    street.push_back(coordinate);
-                }
+                // gen coordinates: [-max_coordinate_abs, max_coordinate_abs]
+                urandom.read((char *)&x, sizeof(int));
+                x = x % (max_coordinate_abs + 1);
+                // std::cout << "Random x: " << x << "\n";
+
+                urandom.read((char *)&y, sizeof(int));
+                y = y % (max_coordinate_abs + 1);
+                // std::cout << "Random y: " << y << "\n";
+
+                // check streets
+                street.push_back(Point(x, y));
             }
-            // check streets
-            // if pass check
             streets.push_back(street);
         }
 
         // set street name = count number, do not need to store it, just store previous size
         // issue rm
+        for (int i = 0; i < prev_size; ++i)
+        {
+            std::cout << "rm \"" << i << "\"" << std::endl;
+        }
         // issue add
+        for (int i = 0; i < streets.size(); ++i)
+        {
+            std::cout << "add \"" << i << "\" ";
+            // TODO: output the points
+        }
+        // issue gg
+        std::cout << "gg" << std::endl;
 
         prev_size = streets.size();
 
-        // issue gg
-        std::cout << "gg" << std::endl;
         // wait for a few seconds
         sleep(interval);
     }
