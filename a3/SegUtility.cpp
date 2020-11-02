@@ -121,4 +121,10 @@ bool adj_segs_valid(const Segment s1, const Segment s2)
     Segment s5 = Segment(Point(2, 2), Point(4, 4));
     Segment s6 = Segment(Point(4, 4), Point(3, 3));
     std::cout << adj_same_line_overlap(s5, s6) << std::endl; // 1
+
+    Segment s7 = Segment(Point(3, 3), Point(4, 4));
+    Segment s8 = Segment(Point(4, 4), Point(3, 3));
+    std::cout << "s6 == s7: " << (s6 == s7) << std::endl;
+    std::cout << "s6 == s8: " << (s6 == s8) << std::endl;
+    std::cout << "s5 == s6: " << (s5 == s6) << std::endl;
 }*/
