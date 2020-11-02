@@ -51,12 +51,13 @@ def parse_line(line, street_db):
             error_print("Error: 'add'/'mod'/'rm' did not specify a double-quoted street name.")
             return None, None
         else:
-            street_name = arg_str[0:quote_pos + 1]      # include "". do not strip()
-            street_pattern = r"(\"[a-zA-Z\s]*\")"
-            valid = re.match(street_pattern, street_name)
-            if valid is None:
-                error_print("Error: street name should not contain characters other than letters and whitespaces.")
-                return None, None
+            street_name = arg_str[0: quote_pos + 1]  # include "". do not strip()
+            # do not need the follwing for a3: can name the street whatever you want
+            # street_pattern = r"(\"[a-zA-Z\s]*\")"
+            # valid = re.match(street_pattern, street_name)
+            # if valid is None:
+            #     error_print("Error: street name should not contain characters other than letters and whitespaces.")
+            #     return None, None
             street_name = street_name[1:-1].lower()
             # for test only
             # print("street name is: " + street_name)

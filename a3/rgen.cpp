@@ -170,15 +170,15 @@ int main(int argc, char **argv)
         // issue add
         for (unsigned i = 0; i < streets.size(); ++i)
         {
-            std::cout << "add \"" << i << "\" {"; // street name is "i"
+            std::cout << "add \"" << i << "\" "; // street name is "i"
             // output the points in a street
             std::vector<Point> &street = streets[i];
             std::vector<Point>::const_iterator iter;
             for (iter = street.begin(); iter != street.end() - 1; ++iter)
             {
-                std::cout << *iter << ",";
+                std::cout << *iter << " ";
             }
-            std::cout << *iter << "}" << std::endl;
+            std::cout << *iter << std::endl;
         }
         // issue gg
         std::cout << "gg" << std::endl;
