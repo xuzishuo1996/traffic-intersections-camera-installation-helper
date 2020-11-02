@@ -23,7 +23,8 @@ int main(int argc, char *argv[])
     kid[0] = fork();
     if (kid[0] == 0) // child process: a2
     {
-        std::cout << "forked a2" << std::endl;
+        // // for test only
+        // std::cout << "forked a2" << std::endl;
 
         dup2(InputToA2[0], STDIN_FILENO);
         close(InputToA2[0]);
@@ -51,7 +52,8 @@ int main(int argc, char *argv[])
     kid[1] = fork();
     if (kid[1] == 0) // child process: a1
     {
-        std::cout << "forked a1" << std::endl;
+        // // for test only
+        // std::cout << "forked a1" << std::endl;
 
         dup2(RgenToA1[0], STDIN_FILENO);
         close(RgenToA1[0]);
@@ -83,7 +85,8 @@ int main(int argc, char *argv[])
     kid[2] = fork();
     if (kid[2] == 0) // child process: rgen
     {
-        std::cout << "forked rgen" << std::endl;
+        // // for test only
+        // std::cout << "forked rgen" << std::endl;
 
         dup2(RgenToA1[1], STDOUT_FILENO);
         close(RgenToA1[0]);
@@ -117,9 +120,6 @@ int main(int argc, char *argv[])
     {
         kill(kid[i], SIGTERM);
     }
-
-    // sleep(10);
-    // std::cout << "I am the parent proc!" << std::endl;
 
     // can be removed
     int res[NUM_OF_CHILD_PROC];
