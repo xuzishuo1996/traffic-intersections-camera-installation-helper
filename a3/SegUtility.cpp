@@ -33,12 +33,6 @@ bool same_line_intersect(const Segment s1, const Segment s2)
     return (std::min(s1.p1.x, s1.p2.x) <= std::max(s2.p1.x, s2.p2.x)) && (std::max(s1.p1.x, s1.p2.x) >= std::min(s2.p1.x, s2.p2.x)) && (std::min(s1.p1.y, s1.p2.y) <= std::max(s2.p1.y, s2.p2.y)) && (std::max(s1.p1.y, s1.p2.y) >= std::min(s2.p1.y, s2.p2.y));
 }
 
-// /* for adjacent segs in the same street: use it only when segs are on the same line */
-// bool adj_same_line_intersects(const Segment s1, const Segment s2)
-// {
-//     return (std::min(s1.p1.x, s1.p2.x) < std::max(s2.p1.x, s2.p2.x)) && (std::max(s1.p1.x, s1.p2.x) > std::min(s2.p1.x, s2.p2.x)) && (std::min(s1.p1.y, s1.p2.y) < std::max(s2.p1.y, s2.p2.y)) && (std::max(s1.p1.y, s1.p2.y) > std::min(s2.p1.y, s2.p2.y));
-// }
-
 /* for adjacent segs in the same street: use it only when segs are on the same line */
 bool adj_same_line_overlap(const Segment s1, const Segment s2)
 {

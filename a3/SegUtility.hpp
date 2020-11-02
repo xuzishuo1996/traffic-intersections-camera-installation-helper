@@ -18,9 +18,6 @@ bool segs_on_same_line(const Segment s1, const Segment s2);
 /* for non-adjacent segs in the same street: use it only when segs are on the same line */
 bool same_line_intersect(const Segment s1, const Segment s2);
 
-// /* for adjacent segs in the same street: use it only when segs are on the same line */
-// bool adj_same_line_intersects(const Segment s1, const Segment s2);
-
 /* for adjacent segs in the same street: use it only when segs are on the same line */
 bool adj_same_line_overlap(const Segment s1, const Segment s2);
 
