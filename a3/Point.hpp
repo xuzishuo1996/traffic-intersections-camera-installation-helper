@@ -17,11 +17,11 @@ public:
 
     virtual ~Point() {}
 
-    // Point is small, so choose pass-by-value
-    inline bool operator==(const Point p2)
-    {
-        return x == p2.x and y == p2.y;
-    };
+    // // Point is small, so choose pass-by-value
+    // inline bool operator==(const Point p2)
+    // {
+    //     return x == p2.x and y == p2.y;
+    // };
 
     // inline const Point operator-(const Point p2)
     // {
@@ -31,6 +31,8 @@ public:
     friend std::ostream &operator<<(std::ostream &, const Point &);
 };
 
+bool operator==(const Point p1, const Point p2);
 const Point operator-(const Point p1, const Point p2);
+long dist_square(const Point p1, const Point p2);
 
 #endif

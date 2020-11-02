@@ -8,10 +8,22 @@ std::ostream &operator<<(std::ostream &os, const Point &p)
     return os;
 }
 
+bool operator==(const Point p1, const Point p2)
+{
+    return p1.x == p2.x and p1.y == p2.y;
+}
+
 const Point operator-(const Point p1, const Point p2)
 {
     return Point(p1.x - p2.x, p1.y - p2.y);
 };
+
+long dist_square(const Point p1, const Point p2)
+{
+    long x_diff = p1.x - p2.x;
+    long y_diff = p1.y - p2.y;
+    return x_diff * x_diff + y_diff * y_diff;
+}
 
 /*int main()
 {

@@ -1,5 +1,7 @@
 #include <iostream>
 #include <algorithm>
+#include <unordered_set>
+#include <forward_list>
 #include "Point.hpp"
 #include "Segment.hpp"
 #include "SegUtility.hpp"
@@ -38,6 +40,100 @@ bool adj_same_line_overlap(const Segment s1, const Segment s2)
 {
     return dot_product(s1.p2 - s1.p1, s2.p2 - s2.p1) < 0;
 }
+
+/* for segs in diff streets: use it only when segs are on the same line and intersect */
+bool same_line_overlap(Segment s1, Segment s2)
+{
+    if (s1 == s2)
+    {
+        return true;
+    }
+    std::forward_list<Point> point_lst{Point(s1.p1), Point(s1.p2), Point(s2.p1), Point(s2.p2)};
+    long max_dist = 0;
+    Point far_ends[2];
+    for (std::forward_list<Point>::const_iterator i = point_lst.begin(); i != point_lst.end(); ++i)
+    {
+        // Loop over all members up to, but excluding, the current outer-loop member.
+        for (std::forward_list<Point>::const_iterator j = point_lst.begin(); j != i; ++j)
+        {
+            std::cout << *i << "," << *j << std::endl;
+            long dist = dist_square(*i, *j);
+            if (dist > max_dist)
+            {
+                max_dist = dist;
+                far_ends[0] = *i;
+                far_ends[1] = *j;
+            }
+        }
+    }
+
+    point_lst.remove(far_ends[0]);
+    point_lst.remove(far_ends[1]);
+    point_lst.unique();
+    unsigned size = 0;
+    for (std::forward_list<Point>::const_iterator i = point_lst.begin(); i != point_lst.end(); ++i)
+    {
+        ++size;
+    }
+    if (size == 2)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// /* hash function of Point: for same_line_overlap() below */
+// size_t hf(const Point &p)
+// {
+//     return std::hash<int>()(p.x) ^ std::hash<int>()(p.y);
+// }
+
+/* for segs in diff streets: use it only when segs are on the same line and intersect */
+/*bool same_line_overlap(Segment s1, Segment s2)
+{
+    if (s1 == s2)
+    {
+        return true;
+    }
+    std::forward_list<Point> point_lst{Point(s1.p1), Point(s1.p2), Point(s2.p1), Point(s2.p2)};
+    // lambda hash function for unordered_set<Point>
+    auto hf = [](const Point &p) { return std::hash<int>()(p.x) ^ std::hash<int>()(p.y); };
+    std::unordered_set<Point, decltype(hf)>
+        point_set(point_lst.begin(), point_lst.end());
+
+    long max_dist = 0;
+    Point far_ends[2];
+    for (std::unordered_set<Point>::const_iterator i = point_set.begin(); i != point_set.end(); ++i)
+    {
+        // Loop over all members up to, but excluding, the current outer-loop member.
+        for (std::unordered_set<Point>::const_iterator j = point_set.begin(); j != i; ++j)
+        {
+            std::cout << *i << "," << *j << std::endl;
+            long dist = dist_square(*i, *j);
+            if (dist > max_dist)
+            {
+                max_dist = dist;
+                far_ends[0] = *i;
+                far_ends[1] = *j;
+            }
+        }
+    }
+
+    point_lst.remove(far_ends[0]);
+    point_lst.remove(far_ends[1]);
+    std::unordered_set<Point, decltype(hf)> res{point_lst.begin(), point_lst.end()};
+    if (res.size() == 2)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}*/
 
 bool straddle(const Segment s1, const Segment s2)
 {
