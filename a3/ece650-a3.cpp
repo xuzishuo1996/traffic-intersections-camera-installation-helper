@@ -57,9 +57,9 @@ int main(int argc, char *argv[])
         close(RgenToA1[0]);
         close(RgenToA1[1]);
 
-        // dup2(InputToA2[1], STDOUT_FILENO);
-        // close(InputToA2[0]);
-        // close(InputToA2[1]);
+        dup2(InputToA2[1], STDOUT_FILENO);
+        close(InputToA2[0]);
+        close(InputToA2[1]);
 
         execv("/usr/bin/python3", a1Args);
         // execv("../ece650-a1.py", a1Args);    // does not work

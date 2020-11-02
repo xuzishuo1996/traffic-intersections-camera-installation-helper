@@ -80,8 +80,8 @@ std::vector<Edge> gen_edges_from_input(std::string input, unsigned idx_limit)
 
 int main(int argc, char **argv)
 {
-    // for test only
-    std::cout << "I am a2 child process!" << std::endl;
+    // // for test only
+    // std::cout << "I am a2 child process!" << std::endl;
 
     Graph *graph;
 
@@ -95,8 +95,8 @@ int main(int argc, char **argv)
         std::string line;
         std::getline(std::cin, line);
 
-        // for test only
-        std::cout << line << std::endl;
+        // // for test only
+        // std::cout << line << std::endl;
 
         // create an input stream based on the line
         // we will use the input stream to parse the line
@@ -109,8 +109,8 @@ int main(int argc, char **argv)
             // parse the command name
             input >> cmd; // ignore leading whitespaces
 
-            // for test only
-            std::cout << "cmd is: " << cmd << std::endl;
+            // // for test only
+            // std::cout << "cmd is: " << cmd << std::endl;
 
             if (input.fail()) // input contains only whitespaces
             {
