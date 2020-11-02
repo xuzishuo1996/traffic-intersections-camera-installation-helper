@@ -21,9 +21,6 @@ bool same_line_intersect(const Segment s1, const Segment s2);
 /* for adjacent segs in the same street: use it only when segs are on the same line */
 bool adj_same_line_overlap(const Segment s1, const Segment s2);
 
-// /* hash function of Point: for same_line_overlap() below */
-// size_t hf(const Point &p);
-
 /* for segs in diff streets: use it only when segs are on the same line and intersect */
 bool same_line_overlap(Segment s1, Segment s2);
 
