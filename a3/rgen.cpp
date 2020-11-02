@@ -6,6 +6,8 @@
 #include "Segment.hpp"
 #include "SegUtility.hpp"
 
+// Reference: ece650 cpp demo repo - https://git.uwaterloo.ca/ece650-1209/cpp
+
 int main(int argc, char **argv)
 {
     // // for test only: driver-to-rgen argument passing

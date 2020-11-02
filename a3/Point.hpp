@@ -23,12 +23,14 @@ public:
         return x == p2.x and y == p2.y;
     };
 
-    inline const Point operator-(const Point p2)
-    {
-        return Point(x - p2.x, y - p2.y);
-    };
+    // inline const Point operator-(const Point p2)
+    // {
+    //     return Point(x - p2.x, y - p2.y);
+    // };
 
     friend std::ostream &operator<<(std::ostream &, const Point &);
 };
+
+const Point operator-(const Point p1, const Point p2);
 
 #endif

@@ -10,7 +10,13 @@ int cross_product(const Point p1, const Point p2)
     return p1.x * p2.y - p2.x * p1.y;
 }
 
-bool three_points_on_same_line(Point p1, Point p2, Point p3)
+/* calculate the dot product of 2 vectors. */
+int dot_product(const Point p1, const Point p2)
+{
+    return p1.x * p2.x + p1.y * p2.y;
+}
+
+bool three_points_on_same_line(const Point p1, const Point p2, const Point p3)
 {
     return cross_product(p2 - p1, p3 - p1) == 0;
 }
@@ -21,16 +27,22 @@ bool segs_on_same_line(const Segment s1, const Segment s2)
     return three_points_on_same_line(s1.p1, s1.p2, s2.p1) && three_points_on_same_line(s1.p1, s1.p2, s2.p2);
 }
 
-/* for non-adjacent segs in a street: use it only when segs are on the same line */
-bool same_line_intersects(const Segment s1, const Segment s2)
+/* for non-adjacent segs in the same street: use it only when segs are on the same line */
+bool same_line_intersect(const Segment s1, const Segment s2)
 {
     return (std::min(s1.p1.x, s1.p2.x) <= std::max(s2.p1.x, s2.p2.x)) && (std::max(s1.p1.x, s1.p2.x) >= std::min(s2.p1.x, s2.p2.x)) && (std::min(s1.p1.y, s1.p2.y) <= std::max(s2.p1.y, s2.p2.y)) && (std::max(s1.p1.y, s1.p2.y) >= std::min(s2.p1.y, s2.p2.y));
 }
 
-/* for adjacent segs in a street: use it only when segs are on the same line */
-bool adj_same_line_intersects(const Segment s1, const Segment s2)
+// /* for adjacent segs in the same street: use it only when segs are on the same line */
+// bool adj_same_line_intersects(const Segment s1, const Segment s2)
+// {
+//     return (std::min(s1.p1.x, s1.p2.x) < std::max(s2.p1.x, s2.p2.x)) && (std::max(s1.p1.x, s1.p2.x) > std::min(s2.p1.x, s2.p2.x)) && (std::min(s1.p1.y, s1.p2.y) < std::max(s2.p1.y, s2.p2.y)) && (std::max(s1.p1.y, s1.p2.y) > std::min(s2.p1.y, s2.p2.y));
+// }
+
+/* for adjacent segs in the same street: use it only when segs are on the same line */
+bool adj_same_line_overlap(const Segment s1, const Segment s2)
 {
-    return (std::min(s1.p1.x, s1.p2.x) < std::max(s2.p1.x, s2.p2.x)) && (std::max(s1.p1.x, s1.p2.x) > std::min(s2.p1.x, s2.p2.x)) && (std::min(s1.p1.y, s1.p2.y) < std::max(s2.p1.y, s2.p2.y)) && (std::max(s1.p1.y, s1.p2.y) > std::min(s2.p1.y, s2.p2.y));
+    return dot_product(s1.p2 - s1.p1, s2.p2 - s2.p1) < 0;
 }
 
 bool straddle(const Segment s1, const Segment s2)
@@ -50,28 +62,28 @@ bool is_intersected(const Segment s1, const Segment s2)
 }
 
 /* valid: return true */
-bool adj_segs_valid(const Segment s1, const Segment s2)
-{
-    if (segs_on_same_line(s1, s2))
-    {
-        return !adj_same_line_intersects(s1, s2);
-    }
-    else
-    {
-        return true;
-    }
-}
-
-/* valid: return true */
 bool non_adj_segs_valid(const Segment s1, const Segment s2)
 {
     if (segs_on_same_line(s1, s2))
     {
-        return !same_line_intersects(s1, s2);
+        return !same_line_intersect(s1, s2);
     }
     else
     {
         return !is_intersected(s1, s2);
+    }
+}
+
+/* valid: return true */
+bool adj_segs_valid(const Segment s1, const Segment s2)
+{
+    if (segs_on_same_line(s1, s2))
+    {
+        return !adj_same_line_overlap(s1, s2);
+    }
+    else
+    {
+        return true;
     }
 }
 
