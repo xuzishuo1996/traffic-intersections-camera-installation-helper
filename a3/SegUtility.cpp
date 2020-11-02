@@ -97,10 +97,10 @@ bool adj_segs_valid(const Segment s1, const Segment s2)
     Segment s2 = Segment(Point(2, 1), Point(2, 5));
     Segment s3 = Segment(Point(2, 2), Point(4, 4));
     Segment s4 = Segment(Point(4, 4), Point(5, 5));
-    std::cout << segs_on_same_line(s1, s2) << std::endl;    // 0
-    std::cout << same_line_intersects(s1, s3) << std::endl; // 1
-    std::cout << same_line_intersects(s1, s4) << std::endl; // 0
-    std::cout << same_line_intersects(s3, s4) << std::endl; // 1
+    std::cout << segs_on_same_line(s1, s2) << std::endl;   // 0
+    std::cout << same_line_intersect(s1, s3) << std::endl; // 1
+    std::cout << same_line_intersect(s1, s4) << std::endl; // 0
+    std::cout << same_line_intersect(s3, s4) << std::endl; // 1
 
     Segment vertical0 = Segment(Point(0, 0), Point(0, 2));
     Segment vertical1 = Segment(Point(1, 0), Point(1, 2));
@@ -115,11 +115,10 @@ bool adj_segs_valid(const Segment s1, const Segment s2)
     Segment unrelated = Segment(Point(100, 0), Point(110, 1));
     std::cout << is_intersected(vertical0, unrelated) << std::endl; // 0
 
-    std::cout << adj_same_line_intersects(s3, s4) << std::endl; // 0
-    std::cout << adj_same_line_intersects(s4, s3) << std::endl; // 0
+    std::cout << adj_same_line_overlap(s3, s4) << std::endl; // 0
+    std::cout << adj_same_line_overlap(s4, s3) << std::endl; // 0
 
     Segment s5 = Segment(Point(2, 2), Point(4, 4));
     Segment s6 = Segment(Point(4, 4), Point(3, 3));
-    std::cout << adj_same_line_intersects(s5, s6) << std::endl; // 1
-}
-*/
+    std::cout << adj_same_line_overlap(s5, s6) << std::endl; // 1
+}*/
