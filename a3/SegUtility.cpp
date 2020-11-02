@@ -56,7 +56,7 @@ bool same_line_overlap(Segment s1, Segment s2)
         // Loop over all members up to, but excluding, the current outer-loop member.
         for (std::forward_list<Point>::const_iterator j = point_lst.begin(); j != i; ++j)
         {
-            std::cout << *i << "," << *j << std::endl;
+            // std::cout << *i << "," << *j << std::endl;
             long dist = dist_square(*i, *j);
             if (dist > max_dist)
             {
@@ -177,7 +177,7 @@ bool adj_segs_valid(const Segment s1, const Segment s2)
     }
 }
 
-/*int main()
+int main()
 {
     Point p1 = Point(1, 1);
     Point p2 = Point(2, 3);
@@ -212,7 +212,6 @@ bool adj_segs_valid(const Segment s1, const Segment s2)
     std::cout << is_intersected(vertical0, unrelated) << std::endl; // 0
 
     std::cout << adj_same_line_overlap(s3, s4) << std::endl; // 0
-    std::cout << adj_same_line_overlap(s4, s3) << std::endl; // 0
 
     Segment s5 = Segment(Point(2, 2), Point(4, 4));
     Segment s6 = Segment(Point(4, 4), Point(3, 3));
@@ -223,4 +222,16 @@ bool adj_segs_valid(const Segment s1, const Segment s2)
     std::cout << "s6 == s7: " << (s6 == s7) << std::endl;
     std::cout << "s6 == s8: " << (s6 == s8) << std::endl;
     std::cout << "s5 == s6: " << (s5 == s6) << std::endl;
-}*/
+
+    std::cout << "===== Test same_line_overlap =====" << std::endl;
+    Segment s9 = Segment(Point(0, 0), Point(5, 5));
+    Segment s10 = Segment(Point(2, 2), Point(6, 6));
+    Segment s11 = Segment(Point(5, 5), Point(6, 6));
+    Segment s12 = Segment(Point(2, 2), Point(4, 4));
+    Segment s13 = Segment(Point(7, 7), Point(8, 8));
+    std::cout << same_line_overlap(s9, s10) << std::endl;  //1
+    std::cout << same_line_overlap(s9, s11) << std::endl;  //0
+    std::cout << same_line_overlap(s9, s12) << std::endl;  //1
+    std::cout << same_line_overlap(s10, s11) << std::endl; //1
+    std::cout << same_line_overlap(s9, s13) << std::endl;  //0
+}
