@@ -20,7 +20,7 @@ public:
     // // Point is small, so choose pass-by-value
     // inline bool operator==(const Point p2)
     // {
-    //     return x == p2.x and y == p2.y;
+    //     return x == p2.x && y == p2.y;
     // };
 
     // inline const Point operator-(const Point p2)

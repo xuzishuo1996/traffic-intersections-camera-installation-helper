@@ -10,7 +10,7 @@ std::ostream &operator<<(std::ostream &os, const Point &p)
 
 bool operator==(const Point p1, const Point p2)
 {
-    return p1.x == p2.x and p1.y == p2.y;
+    return p1.x == p2.x && p1.y == p2.y;
 }
 
 const Point operator-(const Point p1, const Point p2)
