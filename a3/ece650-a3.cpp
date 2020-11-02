@@ -7,7 +7,6 @@
 
 #define NUM_OF_CHILD_PROC 3
 
-// driver: exec a2 locally
 int main(int argc, char *argv[])
 {
     pid_t kid[NUM_OF_CHILD_PROC]; // for rgen, a1 and a2
@@ -40,14 +39,14 @@ int main(int argc, char *argv[])
     }
 
     /* a1 */
-    /* It also works, but it's better to make .py executable */
-    // char *a1Args[2];
-    // a1Args[0] = (char *)"python3";
-    // a1Args[1] = (char *)"../ece650-a1.py"; // curr path is in build/, so use ../
-    // a1Args[2] = nullptr;                   // have to include ending nullptr
+    /* It works, but it's better to make .py executable */
+    char *a1Args[3];
+    a1Args[0] = (char *)"python3";
+    a1Args[1] = (char *)"../ece650-a1.py"; // curr path is in build/, so use ../
+    a1Args[2] = nullptr;                   // have to include ending nullptr
 
-    char *a1Args[1];
-    a1Args[0] = nullptr;
+    // char *a1Args[1];
+    // a1Args[0] = nullptr;
 
     kid[1] = fork();
     if (kid[1] == 0) // child process: a1
@@ -58,11 +57,12 @@ int main(int argc, char *argv[])
         close(RgenToA1[0]);
         close(RgenToA1[1]);
 
-        dup2(InputToA2[1], STDOUT_FILENO);
-        close(InputToA2[0]);
-        close(InputToA2[1]);
+        // dup2(InputToA2[1], STDOUT_FILENO);
+        // close(InputToA2[0]);
+        // close(InputToA2[1]);
 
-        execv("../ece650-a1.py", a1Args);
+        execv("/usr/bin/python3", a1Args);
+        // execv("../ece650-a1.py", a1Args);    // does not work
         return 0;
     }
     else if (kid[1] < 0) // fail to fork
@@ -72,11 +72,13 @@ int main(int argc, char *argv[])
     }
 
     /* rgen */
-    char *rgenArgs[8];
-    for (int i = 1; i < argc; ++i)
+    char *rgenArgs[9];
+    int i;
+    for (i = 1; i < argc; ++i)
     {
         rgenArgs[i - 1] = argv[i];
     }
+    rgenArgs[i - 1] = nullptr;
 
     kid[2] = fork();
     if (kid[2] == 0) // child process: rgen

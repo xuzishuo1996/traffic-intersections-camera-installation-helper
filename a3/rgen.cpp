@@ -27,8 +27,8 @@ int main(int argc, char **argv)
     int option;
     while ((option = getopt(argc, argv, "s:n:l:c:")) != -1)
     {
-        // for test only
-        std::cout << "option is: " << (char)option << std::endl;
+        // // for test only
+        // std::cout << "option is: " << (char)option << std::endl;
 
         std::string tmp_val;
         tmp_val = optarg;
@@ -189,7 +189,7 @@ int main(int argc, char **argv)
         sleep(interval);
     }
 
-    // for test only
+    // // for test only
     // std::cout << "add \"Weber Street\" (2,-1) (2,2) (5,5) (5,6) (3,8)" << std::endl;
     // std::cout << "add \"King Street S\" (4, 2)(4, 8)" << std::endl;
     // std::cout << "add \"Davenport Road\" (1,4) (5,8)" << std::endl;

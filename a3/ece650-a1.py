@@ -9,8 +9,8 @@ from graph import Graph
 
 
 def main():
-    # # for test only
-    # print("I am a1 child process!")
+    # for test only
+    print("I am a1 child process!")
 
     # YOUR MAIN CODE GOES HERE
     street_db = StreetDB()
@@ -23,7 +23,8 @@ def main():
     while True:
         line = sys.stdin.readline().strip()
         # line = input("input a command:\n")
-        # print("read a line:", line)
+        # for test only
+        print("read a line:", line)
         if line == "":
             break
         cmd, val = parse_line(line, street_db)
