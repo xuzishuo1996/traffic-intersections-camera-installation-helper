@@ -111,7 +111,24 @@ bool adj_segs_valid(const Segment s1, const Segment s2)
     }
 }
 
-int main()
+/* valid: return true */
+bool diff_streets_segs_valid(const Segment s1, Segment s2)
+{
+    if (!segs_on_same_line(s1, s2))
+    {
+        return true;
+    }
+    else if (!same_line_intersect(s1, s2))
+    {
+        return true;
+    }
+    else
+    {
+        return !same_line_overlap(s1, s2);
+    }
+}
+
+/*int main()
 {
     Point p1 = Point(1, 1);
     Point p2 = Point(2, 3);
@@ -168,4 +185,4 @@ int main()
     std::cout << same_line_overlap(s9, s12) << std::endl;  //1
     std::cout << same_line_overlap(s10, s11) << std::endl; //1
     // std::cout << same_line_overlap(s9, s13) << std::endl;  //must invoke same_line_intersect() first
-}
+}*/

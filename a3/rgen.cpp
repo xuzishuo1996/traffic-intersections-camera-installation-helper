@@ -89,6 +89,7 @@ int main(int argc, char **argv)
         // std::cout << "Random interval: " << interval << "\n";
 
         std::vector<std::vector<Point>> streets;
+        std::vector<std::vector<Segment>> streets_in_segs;
 
         // gen streets
         for (unsigned i = 0; i < num_of_streets; ++i)
@@ -125,10 +126,16 @@ int main(int argc, char **argv)
                         {
                             succeed = false;
                         }
-                        // check that new segments does not intersect with previous segs in the same street
+                        // check that the new segment does not intersect with previous segs in the same street
                         if (succeed)
                         {
                             seg = Segment(street[street.size() - 1], p);
+                            // the previous (adjacent) seg in the same street
+                            if (segs.size() > 0 && !adj_segs_valid(segs[segs.size() - 1], seg))
+                            {
+                                succeed = false;
+                            }
+                            // other (non - adjacent) segs in the same street
                             for (int t = 0; t < segs.size() - 1; ++t)
                             {
                                 if (!non_adj_segs_valid(segs[t], seg))
@@ -137,12 +144,28 @@ int main(int argc, char **argv)
                                     break;
                                 }
                             }
-                            if (segs.size() > 0 && !adj_segs_valid(segs[segs.size() - 1], seg))
+                        }
+                        // check that the new segment does not overlap with segs in other (previous) streets
+                        if (succeed)
+                        {
+                            for (std::vector<Segment> &prev_street : streets_in_segs)
                             {
-                                succeed = false;
+                                for (Segment &prev_seg : prev_street)
+                                {
+                                    if (!diff_streets_segs_valid(prev_seg, seg))
+                                    {
+                                        succeed = false;
+                                        break;
+                                    }
+                                }
+                                if (!succeed)
+                                {
+                                    break;
+                                }
                             }
                         }
                     }
+                    // if the new segment is valid, add it
                     if (succeed)
                     {
                         street.push_back(p);
@@ -161,6 +184,7 @@ int main(int argc, char **argv)
                 }
             }
             streets.push_back(street);
+            streets_in_segs.push_back(segs);
         }
 
         // set street name = count number, do not need to store it, just store previous size

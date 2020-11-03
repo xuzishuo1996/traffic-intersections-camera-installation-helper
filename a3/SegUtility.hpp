@@ -37,4 +37,7 @@ bool adj_segs_valid(const Segment s1, const Segment s2);
 /* valid: return true */
 bool non_adj_segs_valid(const Segment s1, const Segment s2);
 
+/* valid: return true */
+bool diff_streets_segs_valid(const Segment s1, Segment s2);
+
 #endif
