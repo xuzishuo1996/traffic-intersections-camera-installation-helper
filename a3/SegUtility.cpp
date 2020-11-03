@@ -41,6 +41,34 @@ bool adj_same_line_overlap(const Segment s1, const Segment s2)
     return dot_product(s1.p2 - s1.p1, s2.p2 - s2.p1) < 0;
 }
 
+/* for segs in diff streets: use it only when segs are on the same line and intersect */
+bool same_line_overlap(Segment s1, Segment s2)
+{
+    if (s1 == s2)
+    {
+        return true;
+    }
+
+    if (s1.p1 == s2.p1 && dot_product(s1.p2 - s1.p1, s2.p2 - s2.p1) < 0)
+    {
+        return false;
+    }
+    if (s1.p1 == s2.p2 && dot_product(s1.p2 - s1.p1, s2.p1 - s2.p2) < 0)
+    {
+        return false;
+    }
+    if (s1.p2 == s2.p1 && dot_product(s1.p1 - s1.p2, s2.p2 - s2.p1) < 0)
+    {
+        return false;
+    }
+    if (s1.p2 == s2.p2 && dot_product(s1.p1 - s1.p2, s2.p1 - s2.p2) < 0)
+    {
+        return false;
+    }
+
+    return true;
+}
+
 bool straddle(const Segment s1, const Segment s2)
 {
     Point p0 = Point(s1.p2) - Point(s1.p1);
@@ -83,7 +111,7 @@ bool adj_segs_valid(const Segment s1, const Segment s2)
     }
 }
 
-/*int main()
+int main()
 {
     Point p1 = Point(1, 1);
     Point p2 = Point(2, 3);
@@ -139,5 +167,5 @@ bool adj_segs_valid(const Segment s1, const Segment s2)
     std::cout << same_line_overlap(s9, s11) << std::endl;  //0
     std::cout << same_line_overlap(s9, s12) << std::endl;  //1
     std::cout << same_line_overlap(s10, s11) << std::endl; //1
-    std::cout << same_line_overlap(s9, s13) << std::endl;  //0
-}*/
+    // std::cout << same_line_overlap(s9, s13) << std::endl;  //must invoke same_line_intersect() first
+}
