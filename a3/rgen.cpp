@@ -136,7 +136,7 @@ int main(int argc, char **argv)
                                 succeed = false;
                             }
                             // other (non - adjacent) segs in the same street
-                            for (int t = 0; t < segs.size() - 1; ++t)
+                            for (int t = 0; t < (int)segs.size() - 1; ++t)
                             {
                                 if (!non_adj_segs_valid(segs[t], seg))
                                 {
