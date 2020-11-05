@@ -2,6 +2,7 @@
 #include <fstream>
 #include <unistd.h>
 #include <vector>
+#include <cctype>
 #include "Point.hpp"
 #include "Segment.hpp"
 #include "SegUtility.hpp"
@@ -42,6 +43,11 @@ int main(int argc, char **argv)
         {
         case 's':
             tmp_val = optarg;
+            if (tmp_val.size() > 1 && !isdigit(tmp_val[1]))
+            {
+                std::cerr << "Error: no argument to an option." << std::endl;
+                exit(1);
+            }
             max_num_of_streets_int = atoi(tmp_val.c_str());
             if (max_num_of_streets_int < 0)
             {
@@ -52,6 +58,11 @@ int main(int argc, char **argv)
             break;
         case 'n':
             tmp_val = optarg;
+            if (tmp_val.size() > 1 && !isdigit(tmp_val[1]))
+            {
+                std::cerr << "Error: no argument to an option." << std::endl;
+                exit(1);
+            }
             max_num_of_segs_int = atoi(tmp_val.c_str());
             if (max_num_of_segs_int < 0)
             {
@@ -62,6 +73,11 @@ int main(int argc, char **argv)
             break;
         case 'l':
             tmp_val = optarg;
+            if (tmp_val.size() > 1 && !isdigit(tmp_val[1]))
+            {
+                std::cerr << "Error: no argument to an option." << std::endl;
+                exit(1);
+            }
             max_interval_int = atoi(tmp_val.c_str());
             if (max_interval_int < 0)
             {
@@ -72,6 +88,11 @@ int main(int argc, char **argv)
             break;
         case 'c':
             tmp_val = optarg;
+            if (tmp_val.size() > 1 && !isdigit(tmp_val[1]))
+            {
+                std::cerr << "Error: no argument to an option." << std::endl;
+                exit(1);
+            }
             max_coordinate_abs = atoi(tmp_val.c_str());
             if (max_coordinate_abs < 0)
             {

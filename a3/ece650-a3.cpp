@@ -9,7 +9,7 @@
 
 // Reference: ece650 cpp demo repo - https://git.uwaterloo.ca/ece650-1209/cpp
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
     pid_t kid[NUM_OF_CHILD_PROC]; // for rgen, a1 and a2
 
