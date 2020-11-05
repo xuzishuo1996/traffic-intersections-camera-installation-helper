@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <vector>
 #include <cctype>
+#include <regex>
 #include "Point.hpp"
 #include "Segment.hpp"
 #include "SegUtility.hpp"
@@ -33,6 +34,7 @@ int main(int argc, char **argv)
     // parse args: expected options are '-s', '-n', '-l' and '-c' and corresponding values
     int option;
     opterr = 0;
+    std::regex pat{R"(\d+)"}; // for validating option values
     while ((option = getopt(argc, argv, "s:n:l:c:")) != -1)
     {
         // // for test only
@@ -43,62 +45,52 @@ int main(int argc, char **argv)
         {
         case 's':
             tmp_val = optarg;
-            if (tmp_val.size() > 1 && !isdigit(tmp_val[1]))
+            if (!std::regex_match(tmp_val, pat))
             {
-                std::cerr << "Error: no argument to an option." << std::endl;
+                std::cerr << "Error: invalid argument value of -s." << std::endl;
                 exit(1);
             }
+            // if (tmp_val.size() > 1 && !isdigit(tmp_val[1]))
+            // {
+            //     std::cerr << "Error: no argument to an option." << std::endl;
+            //     exit(1);
+            // }
             max_num_of_streets_int = atoi(tmp_val.c_str());
-            if (max_num_of_streets_int < 0)
-            {
-                std::cerr << "Error: the value of the -s must >= 2." << std::endl;
-                exit(1);
-            }
+            // if (max_num_of_streets_int < 0)
+            // {
+            //     std::cerr << "Error: the value of the -s must >= 2." << std::endl;
+            //     exit(1);
+            // }
             max_num_of_streets = max_num_of_streets_int;
             break;
         case 'n':
             tmp_val = optarg;
-            if (tmp_val.size() > 1 && !isdigit(tmp_val[1]))
+            if (!std::regex_match(tmp_val, pat))
             {
-                std::cerr << "Error: no argument to an option." << std::endl;
+                std::cerr << "Error: invalid argument value of -n." << std::endl;
                 exit(1);
             }
             max_num_of_segs_int = atoi(tmp_val.c_str());
-            if (max_num_of_segs_int < 0)
-            {
-                std::cerr << "Error: the value of the -n must >= 1." << std::endl;
-                exit(1);
-            }
             max_num_of_segs = max_num_of_segs_int;
             break;
         case 'l':
             tmp_val = optarg;
-            if (tmp_val.size() > 1 && !isdigit(tmp_val[1]))
+            if (!std::regex_match(tmp_val, pat))
             {
-                std::cerr << "Error: no argument to an option." << std::endl;
+                std::cerr << "Error: invalid argument value of -l." << std::endl;
                 exit(1);
             }
             max_interval_int = atoi(tmp_val.c_str());
-            if (max_interval_int < 0)
-            {
-                std::cerr << "Error: the value of the -l must >= 5." << std::endl;
-                exit(1);
-            }
             max_interval = max_interval_int;
             break;
         case 'c':
             tmp_val = optarg;
-            if (tmp_val.size() > 1 && !isdigit(tmp_val[1]))
+            if (!std::regex_match(tmp_val, pat))
             {
-                std::cerr << "Error: no argument to an option." << std::endl;
+                std::cerr << "Error: invalid argument value of -c." << std::endl;
                 exit(1);
             }
             max_coordinate_abs = atoi(tmp_val.c_str());
-            if (max_coordinate_abs < 0)
-            {
-                std::cerr << "Error: the value of the -c must >= 0." << std::endl;
-                exit(1);
-            }
             break;
         case '?':
             if (optopt == 's' || optopt == 'n' || optopt == 'l' || optopt == 'c')
@@ -112,15 +104,14 @@ int main(int argc, char **argv)
         }
     }
 
-    // for test only
-    std::cerr << "[-s] max_num_of_streets: " << max_num_of_streets << std::endl;
-    std::cerr << "[-n] max_num_of_segs: " << max_num_of_segs << std::endl;
-    std::cerr << "[-l] max_interval: " << max_interval << std::endl;
-    std::cerr << "[-c] max_coordinate_abs: " << max_coordinate_abs << std::endl;
+    // // for test only
+    // std::cerr << "[-s] max_num_of_streets: " << max_num_of_streets << std::endl;
+    // std::cerr << "[-n] max_num_of_segs: " << max_num_of_segs << std::endl;
+    // std::cerr << "[-l] max_interval: " << max_interval << std::endl;
+    // std::cerr << "[-c] max_coordinate_abs: " << max_coordinate_abs << std::endl;
 
     if (max_num_of_streets < 2)
     {
-        std::cerr << "I am here: max_num_of_streets" << std::endl;
         std::cerr << "Error: the value of the '-s' option must >= 2." << std::endl;
         exit(1);
     }
