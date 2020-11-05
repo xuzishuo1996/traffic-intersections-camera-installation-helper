@@ -11,13 +11,13 @@
 int main(int argc, char **argv)
 {
     // // for test only: driver-to-rgen argument passing
-    // std::cout << "I am rgen child process!" << std::endl;
-    // std::cout << "argc: " << argc << std::endl;
-    // for (int i = 1; i < argc; ++i)
+    // std::cerr << "I am rgen child process!" << std::endl;
+    // std::cerr << "argc: " << argc << std::endl;
+    // for (int i = 0; i < argc; ++i)
     // {
-    //     std::cout << argv[i] << std::endl;
+    //     std::cerr << argv[i] << std::endl;
     // }
-    // std::cout << std::endl;
+    // std::cerr << std::endl;
 
     // set default args
     unsigned max_num_of_streets = 10;
@@ -25,40 +25,94 @@ int main(int argc, char **argv)
     unsigned max_interval = 5;
     int max_coordinate_abs = 20;
 
+    int max_num_of_streets_int;
+    int max_num_of_segs_int;
+    int max_interval_int;
+
     // parse args: expected options are '-s', '-n', '-l' and '-c' and corresponding values
     int option;
+    opterr = 0;
     while ((option = getopt(argc, argv, "s:n:l:c:")) != -1)
     {
         // // for test only
-        // std::cout << "option is: " << (char)option << std::endl;
+        // std::cerr << "enter parsing option: " << (char)option << std::endl;
 
         std::string tmp_val;
-        tmp_val = optarg;
-        int opt_val = atoi(tmp_val.c_str());
-
         switch (option)
         {
         case 's':
-            max_num_of_streets = opt_val;
+            tmp_val = optarg;
+            max_num_of_streets_int = atoi(tmp_val.c_str());
+            if (max_num_of_streets_int < 0)
+            {
+                std::cerr << "Error: the value of the -s must >= 2." << std::endl;
+                exit(1);
+            }
+            max_num_of_streets = max_num_of_streets_int;
             break;
         case 'n':
-            max_num_of_segs = opt_val;
+            tmp_val = optarg;
+            max_num_of_segs_int = atoi(tmp_val.c_str());
+            if (max_num_of_segs_int < 0)
+            {
+                std::cerr << "Error: the value of the -n must >= 1." << std::endl;
+                exit(1);
+            }
+            max_num_of_segs = max_num_of_segs_int;
             break;
         case 'l':
-            max_interval = opt_val;
+            tmp_val = optarg;
+            max_interval_int = atoi(tmp_val.c_str());
+            if (max_interval_int < 0)
+            {
+                std::cerr << "Error: the value of the -l must >= 5." << std::endl;
+                exit(1);
+            }
+            max_interval = max_interval_int;
             break;
         case 'c':
-            max_coordinate_abs = opt_val;
+            tmp_val = optarg;
+            max_coordinate_abs = atoi(tmp_val.c_str());
+            if (max_coordinate_abs < 0)
+            {
+                std::cerr << "Error: the value of the -c must >= 0." << std::endl;
+                exit(1);
+            }
             break;
+        case '?':
+            if (optopt == 's' || optopt == 'n' || optopt == 'l' || optopt == 'c')
+                std::cerr << "Error: option -" << (char)optopt << " requires an argument." << std::endl;
+            else
+                std::cerr << "Error: unknown option: " << (char)optopt << std::endl;
+            exit(1);
         default:
-            break;
+            std::cerr << "Error: invalid option." << std::endl;
+            exit(1);
         }
     }
-    // // for test only
-    // std::cout << "[-s] max_num_of_streets: " << max_num_of_streets << std::endl;
-    // std::cout << "[-n] max_num_of_segs: " << max_num_of_segs << std::endl;
-    // std::cout << "[-l] max_interval: " << max_interval << std::endl;
-    // std::cout << "[-c] max_coordinate_abs: " << max_coordinate_abs << std::endl;
+
+    // for test only
+    std::cerr << "[-s] max_num_of_streets: " << max_num_of_streets << std::endl;
+    std::cerr << "[-n] max_num_of_segs: " << max_num_of_segs << std::endl;
+    std::cerr << "[-l] max_interval: " << max_interval << std::endl;
+    std::cerr << "[-c] max_coordinate_abs: " << max_coordinate_abs << std::endl;
+
+    if (max_num_of_streets < 2)
+    {
+        std::cerr << "I am here: max_num_of_streets" << std::endl;
+        std::cerr << "Error: the value of the '-s' option must >= 2." << std::endl;
+        exit(1);
+    }
+    if (max_num_of_segs < 1)
+    {
+        std::cerr << "Error: the value of the '-n' option must >= 1." << std::endl;
+        exit(1);
+    }
+    if (max_interval < 5)
+    {
+        std::cerr << "Error: the value of the '-l' option must >= 5." << std::endl;
+        exit(1);
+    }
 
     // open /dev/urandom to read
     std::ifstream urandom("/dev/urandom");
