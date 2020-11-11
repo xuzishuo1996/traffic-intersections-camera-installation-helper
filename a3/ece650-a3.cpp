@@ -9,8 +9,19 @@
 
 // Reference: ece650 cpp demo repo - https://git.uwaterloo.ca/ece650-1209/cpp
 
+// rgen exit signal handler
+void rgen_exit_handler(int arg)
+{
+    // std::cerr << "the signal is: " << arg << std::endl;  // 17: SIGCHLD
+    // raise(SIGTERM);
+    exit(1);
+}
+
 int main(int argc, char **argv)
 {
+    char *callbackArgs[3];
+    signal(SIGCHLD, rgen_exit_handler); // register signal callback
+
     pid_t kid[NUM_OF_CHILD_PROC]; // for rgen, a1 and a2
 
     int RgenToA1[2]; // one-way pipe from rgen to a1
@@ -123,7 +134,6 @@ int main(int argc, char **argv)
         kill(kid[i], SIGTERM);
     }
 
-    // can be removed
     int res[NUM_OF_CHILD_PROC];
     for (int i = 0; i < NUM_OF_CHILD_PROC; ++i)
     {
