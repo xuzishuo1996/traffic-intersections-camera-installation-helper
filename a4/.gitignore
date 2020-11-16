@@ -1,0 +1,12 @@
+##### 1. Python #####
+__pycache__/
+
+##### 2. VS Code #####
+.vscode/
+
+##### 3. C++ and CMake #####
+*.o
+build/
+
+##### 4. Project Specific #####
+minisat/
