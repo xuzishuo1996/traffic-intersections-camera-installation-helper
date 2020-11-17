@@ -19,16 +19,16 @@ std::vector<Edge> gen_edges_from_input(std::string input, unsigned idx_limit)
 {
     std::vector<Edge> edges; // return value
 
-    // check '-': ensure there are no vertices with a negative reference number
-    std::string::iterator pos = std::find_if(input.begin(), input.end(), [](char ch) {
-        return ch == '-';
-    });
-    if (pos != input.end())
-    {
-        std::cerr << "Error: edges include a vertex does not exist." << std::endl;
-        edges = {};
-        return edges;
-    }
+    // // check '-': ensure there are no vertices with a negative reference number
+    // std::string::iterator pos = std::find_if(input.begin(), input.end(), [](char ch) {
+    //     return ch == '-';
+    // });
+    // if (pos != input.end())
+    // {
+    //     std::cerr << "Error: edges include a vertex does not exist." << std::endl;
+    //     edges = {};
+    //     return edges;
+    // }
 
     std::regex pat{R"((\d+)\s*,\s*(\d+))"};
     std::sregex_iterator iter(input.begin(), input.end(), pat);
@@ -44,12 +44,12 @@ std::vector<Edge> gen_edges_from_input(std::string input, unsigned idx_limit)
             if (std::getline(iss, item, ','))
             {
                 unsigned v = (unsigned)stoi(item);
-                if (v > idx_limit || v <= 0)
-                {
-                    std::cerr << "Error: edges include a vertex does not exist." << std::endl;
-                    edges = {};
-                    return edges;
-                }
+                // if (v > idx_limit || v <= 0)
+                // {
+                //     std::cerr << "Error: edges include a vertex does not exist." << std::endl;
+                //     edges = {};
+                //     return edges;
+                // }
                 if (i == 0)
                 {
                     edge.first = v;
@@ -129,11 +129,11 @@ int main(int argc, char **argv)
             {
                 unsigned vertex_num;
                 input >> vertex_num;
-                if (input.fail())
-                {
-                    std::cerr << "Error: the command is invalid 2." << std::endl;
-                    break;
-                }
+                // if (input.fail())
+                // {
+                //     std::cerr << "Error: the command is invalid 2." << std::endl;
+                //     break;
+                // }
                 graph = new Graph(vertex_num);
                 break;
             }
@@ -143,10 +143,7 @@ int main(int argc, char **argv)
                 std::string remaining;
                 input >> remaining;
                 edges = gen_edges_from_input(remaining, graph->get_vertex_num());
-                if (!edges.empty())
-                {
-                    graph->set_edges(edges);
-                }
+                graph->set_edges(edges);
                 // vertex-cover code comes in here
                 graph->get_vertex_cover();
                 // graph->get_vertex_cover(solver);
@@ -157,11 +154,11 @@ int main(int argc, char **argv)
 
                 break;
             }
-            else
-            {
-                std::cerr << "Error: the command is invalid 5" << std::endl;
-                break;
-            }
+            // else
+            // {
+            //     std::cerr << "Error: the command is invalid 5" << std::endl;
+            //     break;
+            // }
         }
     }
 
