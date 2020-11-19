@@ -60,8 +60,9 @@ void *worker(void *arg)
 
 void vector_add_for_v3(vector_t *v_dst, vector_t *v_src)
 {
-    pthread_mutex_lock(&v_src->lock);
-    pthread_mutex_lock(&v_dst->lock);
+    // Change here !!!
+    pthread_mutex_lock(&v_src->lock); // first acquire v1's lock
+    pthread_mutex_lock(&v_dst->lock); // then acquire v3's lock
     for (int i = 0; i < SIZE; i++)
     {
         v_dst->values[i] = v_dst->values[i] + v_src->values[i];
