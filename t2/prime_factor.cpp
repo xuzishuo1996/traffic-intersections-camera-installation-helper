@@ -12,14 +12,15 @@ typedef struct
     unsigned second; // num
 } Factor;
 
-std::string
-prime_factor(unsigned x)
+std::string prime_factor(unsigned x)
 {
     std::stringstream out;
 
     // YOUR CODE GOES HERE
-
-    // deal with x = 0, x = 1, and x is prime?
+    if (x < 2)
+    {
+        return std::to_string(x);
+    }
 
     std::vector<Factor> res;
 
@@ -72,7 +73,7 @@ prime_factor(unsigned x)
     // input is prime
     if (res.size() == 0)
     {
-        return "";
+        return std::to_string(x);
     }
 
     out << res[0].first;
