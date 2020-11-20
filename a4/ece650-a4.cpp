@@ -143,15 +143,21 @@ int main(int argc, char **argv)
                 std::string remaining;
                 input >> remaining;
                 edges = gen_edges_from_input(remaining, graph->get_vertex_num());
-                graph->set_edges(edges);
-                // vertex-cover code comes in here
-                graph->get_vertex_cover();
-                // graph->get_vertex_cover(solver);
+                if (edges.empty())
+                {
+                    std::cout << std::endl;
+                }
+                else
+                {
+                    graph->set_edges(edges);
+                    // vertex-cover code comes in here
+                    graph->get_vertex_cover();
+                    // graph->get_vertex_cover(solver);
 
-                // // the next line de-allocates existing solver and allocates a new
-                // // one in its place.
-                // solver.reset(new Minisat::Solver());
-
+                    // // the next line de-allocates existing solver and allocates a new
+                    // // one in its place.
+                    // solver.reset(new Minisat::Solver());
+                }
                 break;
             }
             // else
