@@ -1,9 +1,11 @@
 #include "Graph.hpp"
 #include <iostream>
+#include <sstream>
 #include <queue>
 #include <climits>
 #include <memory>
 #include <algorithm>
+#include <regex>
 // defines Var and Lit
 #include "minisat/core/SolverTypes.h"
 // defines Solver
@@ -21,29 +23,48 @@ Graph::~Graph()
 {
 }
 
-// store edges from the input to the Graph data structure
-void Graph::set_edges(const std::vector<Edge> &input_edges)
+void Graph::set_edges(std::string input)
 {
-    edges = input_edges;
+    std::regex pat{R"((\d+)\s*,\s*(\d+))"};
+    std::sregex_iterator iter(input.begin(), input.end(), pat);
+
+    for (; iter != std::sregex_iterator{}; ++iter)
+    {
+        Edge edge;
+        // below 5 lines are adapted from: https://stackoverflow.com/questions/236129/how-do-i-iterate-over-the-words-of-a-string
+        std::istringstream iss((*iter)[0]);
+        std::string item;
+        for (unsigned i = 0; i < 2; ++i)
+        {
+            if (std::getline(iss, item, ','))
+            {
+                unsigned v = (unsigned)stoi(item);
+                if (i == 0)
+                {
+                    edge.first = v;
+                }
+                else
+                {
+                    edge.second = v;
+                }
+            }
+        }
+
+        if (edge.first != edge.second)
+        {
+            edges.push_back(edge);
+        }
+    }
 
     // // for test only
-    // for (unsigned i = 0; i < edges.size(); ++i)
+    // std::cout << "output edges: " << '\n';
+    // std::cout << "edges size(): " << edges.size() << '\n';
+    // for (std::vector<Edge>::const_iterator iter = edges.begin(); iter != edges.end(); ++iter)
     // {
-    //     std::cout << "(" << edges[i].first << "," << edges[i].second << ")" << std::endl;
+    //     std::cout << '<' << (*iter).first << ',' << (*iter).second << "> ";
     // }
+    // std::cout << std::endl
 }
-
-// // store edges from the input to the Graph data structure
-// void Graph::set_edges(const std::vector<Edge> &edges)
-// {
-//     // iter has to be const because 'edges' is const
-//     for (std::vector<Edge>::const_iterator iter = edges.begin(); iter != edges.end(); ++iter)
-//     {
-//         Edge curr = *iter;
-//         adj_list[curr.first].push_back(curr.second);
-//         adj_list[curr.second].push_back(curr.first);
-//     }
-// }
 
 // reduction from Vertex-Cover to CNF-SAT and use minisat to solve it
 // use n * k literals
@@ -103,7 +124,7 @@ void Graph::get_vertex_cover()
 
         // 4. each edge should contain at least one vertex that is included in the vertex-cover
         // |E|  2*k clause
-        for (Edge &edge : edges)
+        for (const Edge &edge : edges)
         {
             Minisat::vec<Minisat::Lit> v;
             for (unsigned p = 0; p < k; ++p)

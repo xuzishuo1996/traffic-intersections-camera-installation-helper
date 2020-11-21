@@ -23,11 +23,15 @@ public:
     Graph(unsigned vertex_num);
     virtual ~Graph(); // virtual destructor
 
-    unsigned inline get_vertex_num() const
+    inline unsigned get_vertex_num() const
     {
         return vertex_num;
     }
-    void set_edges(const std::vector<Edge> &input_edges); // store edges from the input to the Graph data structure
+    inline bool edges_is_empty() const
+    {
+        return edges.empty();
+    }
+    void set_edges(std::string input); // store edges from the input to the Graph data structure
     void get_vertex_cover();
 };
 
