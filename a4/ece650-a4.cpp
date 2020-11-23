@@ -17,10 +17,7 @@
 
 int main(int argc, char **argv)
 {
-    // // -- allocate on the heap so that we can reset later if needed
-    // std::unique_ptr<Minisat::Solver> solver(new Minisat::Solver());
-
-    Graph *graph;
+    std::unique_ptr<Graph> graph;
 
     // read from stdin until EOF
     while (!std::cin.eof())
@@ -48,7 +45,7 @@ int main(int argc, char **argv)
             {
                 unsigned vertex_num;
                 input >> vertex_num;
-                graph = new Graph(vertex_num);
+                graph = std::unique_ptr<Graph>(new Graph(vertex_num));
                 break;
             }
             else if (cmd == 'E')
@@ -64,13 +61,8 @@ int main(int argc, char **argv)
                 else
                 {
                     graph->get_vertex_cover();
-                    // graph->get_vertex_cover(solver);
-
-                    // // the next line de-allocates existing solver and allocates a new
-                    // // one in its place.
-                    // solver.reset(new Minisat::Solver());
                 }
-                delete graph;
+                graph.reset(); // delete the managed Graph object
                 break;
             }
         }

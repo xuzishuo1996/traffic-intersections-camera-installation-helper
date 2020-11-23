@@ -166,6 +166,7 @@ void Graph::get_vertex_cover()
             }
             std::cout << cover[i] << std::endl;
 
+            solver.reset(); // delete the managed Solver object
             break;
         }
 
