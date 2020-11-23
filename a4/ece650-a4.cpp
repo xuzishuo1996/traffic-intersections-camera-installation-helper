@@ -68,5 +68,7 @@ int main(int argc, char **argv)
         }
     }
 
+    graph.reset();
+    graph.release();
     return 0;
 }
