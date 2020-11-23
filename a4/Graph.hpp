@@ -16,7 +16,6 @@ class Graph
 private:
     unsigned vertex_num;
     std::vector<Edge> edges;
-    // std::vector<std::vector<unsigned>> adj_list; // reference or direct
 
 public:
     Graph(); // default constructor

@@ -70,6 +70,7 @@ int main(int argc, char **argv)
                     // // one in its place.
                     // solver.reset(new Minisat::Solver());
                 }
+                delete graph;
                 break;
             }
         }
