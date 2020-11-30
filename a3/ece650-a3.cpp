@@ -62,8 +62,8 @@ int main(int argc, char **argv)
     /* It works, but it's better to make .py executable */
     char *a1Args[3];
     a1Args[0] = (char *)"python3";
-    a1Args[1] = (char *)"../ece650-a1.py"; // curr path is in build/, so use ../
-    a1Args[2] = nullptr;                   // have to include ending nullptr
+    a1Args[1] = (char *)"./ece650-a1.py";
+    a1Args[2] = nullptr; // have to include ending nullptr
 
     // char *a1Args[1];
     // a1Args[0] = nullptr;
