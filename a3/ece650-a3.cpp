@@ -25,7 +25,7 @@ void rgen_exit_handler(int arg)
     {
         waitpid(kid[i], &res[i], 0);
     }
-    exit(1);
+    exit(0);
 }
 
 int main(int argc, char **argv)
