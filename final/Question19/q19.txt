@@ -1,0 +1,30 @@
+Flaws: 
+1. There may be a deadlock when: the producer is stuck waiting for sem s, and the consumer is stuck waiting for sem n after get sem s. Measure to take: delete consumer's wait for sem s. 
+2. A consumer's setWait(s) may misleadingly get the sem from its own semSignal(s) while there is not new element put on the queue (the producer should get it). Measure to take: delete consumer's wait for sem s. 
+3. A consumer may have starvation and cannot execute comsume(y), especially if there are multiple consumers. Measure to take: move the semSignal(s) after consume(y).
+4. the sem s should be initialized to 1 somewhere. Otherwise, the first element could not be sent.
+
+// below is the revised pseudo-code
+binarySemaphore n = 0; // initialized to zero
+binarySemaphore s = 1; // initialized to zero
+
+void producer()
+{
+    while (true)
+    {
+        item x = produce();
+        semWait(s);
+        put(x);
+        semSignal(n);
+    }
+}
+void consumer()
+{
+    while (true)
+    {
+        semWait(n);
+        item y = take();
+        consume(y);
+        semSignal(s);
+    }
+}

@@ -69,6 +69,7 @@ bool Point::lt(const Point &other) const
 }
 
 // Signature for hash function for part (e)
+// Please also see the picture for explanation
 unsigned Point::hash() const
 {
     if (isInf())
@@ -80,5 +81,5 @@ unsigned Point::hash() const
         return 0;
     }
     return static_cast<unsigned int>(x) +
-           429496751 * static_cast<unsigned int>(y);
+           429496751 * static_cast<unsigned int>(y); // arithmetic operations wrap on overflow
 }
