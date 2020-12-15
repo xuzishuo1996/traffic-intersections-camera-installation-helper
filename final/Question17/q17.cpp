@@ -25,10 +25,23 @@ bool Point::eq(const Point &other) const
 // Signature for weak order for part (d)
 bool Point::lt(const Point &other) const
 {
-    if (isNaC() || other.isNaC())
+    // Nac is the biggest
+    if (isNaC())
     {
-        return false;
+        if (other.isNaC())
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
+    if (other.isNaC())
+    {
+        return true;
+    }
+
     if (isInf())
     {
         if (other.isInf())
@@ -40,6 +53,7 @@ bool Point::lt(const Point &other) const
             return !isPos(); // this is negative inf
         }
     }
+
     if (x < other.getX())
     {
         return true;
