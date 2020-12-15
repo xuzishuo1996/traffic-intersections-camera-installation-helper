@@ -81,6 +81,7 @@ public:
             tmp[j] = v[i];
             --j;
         }
+        top[1] = j + 1;
         v = tmp;
         max_num *= 2;
         return;
